@@ -52,6 +52,9 @@ export default {
             }
         }
     },
+    mounted(){
+        console.log(this.menuList)
+    },
     updated () {
         this.$nextTick(() => {
             if (this.$refs.sideMenu) {

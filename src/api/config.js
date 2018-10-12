@@ -1,2 +1,2 @@
-const BASE_URL = '/leasing-api'
+const BASE_URL = '/lock-api'
 export default BASE_URL;

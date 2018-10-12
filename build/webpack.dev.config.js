@@ -47,15 +47,15 @@ module.exports = merge(webpackBaseConfig, {
 		historyApiFallback: true,
 		hot: true,
         inline: true,
-        port:9900,
+        port:9000,
 		stats: {
 			colors: true
 		},
 		proxy: {
 			//匹配代理的url
-			'/leasing-api': {
+			'/lock-api': {
 				// 目标服务器地址
-                target: 'http://172.16.100.203:8082',
+                target: 'http://172.16.10.82:8082',
                 // target: 'http://172.16.10.145:8082',
                 // target: 'http://172.16.10.141:8085',
 				//路径重写

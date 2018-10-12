@@ -1,6 +1,5 @@
 import request from '../../libs/utils/request';
 import store from '@/store/index';
-// const BASE_URL = 'https://easy-mock.com/mock/5a65b37707c2c26fa621b84a/leasing-api';    //
 import BASE_URL from '@/api/config.js';
 
 // 请求联网设备列表

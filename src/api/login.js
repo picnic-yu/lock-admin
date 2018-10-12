@@ -3,7 +3,6 @@ import BASE_URL from '@/api/config.js';
 export function login(username, password) {
 
   return request({
-    //   url:'https://easy-mock.com/mock/5a65b37707c2c26fa621b84a/leasing-api/token/login',
     url: BASE_URL+'/tokens/login?username=' + username + '&password=' + password,
     method: 'get'
   })
