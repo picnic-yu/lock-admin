@@ -120,7 +120,7 @@ export default {
                     align: 'center',
                 },
                 {
-                    title: '所属部门',
+                    title: '单位组别',
                     key: 'organizationName',
                     align: 'center'
                 },

@@ -13,33 +13,16 @@
                             <Option v-for="item in organizations" :value="item.id" :key="item.id">{{ item.organizationName }}</Option>
                         </Select>
                     </FormItem>
-                    <FormItem label="统一社会信用代码" prop="socialUnityCd">
-                        <Input  v-model="formValidate.socialUnityCd" :readonly="socialUnityCdReadonly" placeholder="请输入统一社会信用代码"></Input>
-                    </FormItem>
+                    
                     <FormItem label="组织名称" prop="organizationName" >
                         <Input v-model="formValidate.organizationName" :maxlength=30 placeholder="请输入组织名称"></Input>
                     </FormItem>
-                    <FormItem label="组织类型" prop="organizationType">
-                        <!-- <Select v-model="formValidate.organizationType">
-                            <Option v-for="(item,index) in organizationTypeSelect" :value="item.code" :key="index">{{ item.value }}</Option>
-                        </Select> -->
-                        <Input value="组织" readonly></Input>
-                    </FormItem>
+                    
                     <FormItem label="说明" prop="organizationDescription">
                             <Input v-model="formValidate.organizationDescription" placeholder="请输入说明"></Input>
                     </FormItem>
 
-                    <Row>
-                            <FormItem label="Logo" prop="image"  enctype="multipart/form-data">
-                                <VueImgInputer :imgSrc='imageUrl' :maxSize='700' accept="image/*" v-model="formValidate.image" theme="light" ></VueImgInputer>
-                            </FormItem>
-                            <!-- <FormItem label="设备图片" prop="image" v-if="!isEdit" enctype="multipart/form-data">
-                            <div @click='displayImgStatus=true'>
-                                <VueImgInputer :readonly ='true' accept="image/*" :imgSrc='imageUrl' :maxSize='700' v-model="formValidate.image" theme="light" ></VueImgInputer>
-                            </div>
-                            </FormItem> -->
-                            
-                    </Row>
+                   
                 </div>
             </Form>
             <Spin :fix='true' v-show='isLoading'>
@@ -73,20 +56,6 @@ import { upload } from '@/api/upload'
 import lookUpdata from '@/libs/lookup/lookupInfo.js';
 import {transformData} from '@/libs/utils/lookupUtils.js';
 
-const organizationTypeSelect = [
-        {
-            code: 'ORG',
-            value: '组织'
-        },
-        // {
-        //     code: 'OFFICE',
-        //     value: '办事处'
-        // },
-        // {
-        //     code: 'DEPT',
-        //     value: '部门'
-        // }
-    ]
 
 /**
 * 函数功能简述 获取组织信息列表
@@ -170,21 +139,6 @@ const getOrganizationByIdAction = async (self, id) => {
     })
 }
 
-const uploadImgAction = (self) => {
-    return new Promise((resolve, reject) => {
-        upload(self.formValidate.image).then(response => {
-           if(response.code == 200){
-                self.formValidate.organizationLogo = response.content;
-            }else{
-                self.$Message.error("图片保存失败");
-            }
-            resolve();
-            }).catch(error => {
-                self.$Message.error("图片保存失败");
-                reject(error);
-            })
-        });
-};
 
 export default {
     components: {
@@ -214,19 +168,15 @@ export default {
             isLoading: false,
             socialUnityCdReadonly: true,
             displayImgStatus: false,
-            organizationTypeSelect: organizationTypeSelect,
             formModel: self.formModelStatus,
             saveLoading:false,
             formValidate:{
                 pid:'',
                 organizationName:'',
                 organizationDescription:'',
-                socialUnityCd:'',
                 image:{},
                 organizationLogo: '',//图片logo
-                organizationType: 'ORG',
             },
-            imageUrl: '',
             organizations:[],
             ruleValidate:{
                 organizationName: [
@@ -235,12 +185,7 @@ export default {
                 pid: [
                     { required: true, message: '请输入上级组织', trigger: 'change' }
                 ],
-                socialUnityCd:[
-                    { required: true, message: '请输入统一社会信用代码', trigger: 'change' }
-                ],
-                organizationType: [
-                    { required: true, message: '请输入组织类型', trigger: 'change' }
-                ],
+                
                 
             }
         }
@@ -270,28 +215,10 @@ export default {
         handelSave(name){
             this.$refs[name].validate((valid) => {
                 if (valid) {
-                    if (this.formValidate.image) {
-                        if (typeof this.formValidate.image == 'object'  && this.formValidate.image.name) {
-                            uploadImgAction(this).then(response => {
-                                if (this.isEdit) {
-                                    updateOrganizationAction(this);
-                                } else {
-                                    addOrganizationAction(this);
-                                }
-                                
-                            });
-                        } else if (typeof this.formValidate.image == 'string') {
-                            if (this.isEdit) {
-                                    updateOrganizationAction(this);
-                                } else {
-                                    addOrganizationAction(this);
-                                }
-                        } else {
-                            this.$Message.error('图片不能为空');
-                        }
-                        
+                    if (this.isEdit) {
+                        updateOrganizationAction(this);
                     } else {
-                        this.$Message.error('图片不能为空');
+                        addOrganizationAction(this);
                     }
                 }
             })
@@ -299,9 +226,7 @@ export default {
         async selectOrganazation(val){
             if (!this.isEdit) {
                 let organ = await getOrganizationByIdAction(this, val);
-                if (organ && organ.pid !== null) {
-                    this.formValidate.socialUnityCd = organ.socialUnityCd;
-                }
+                
             }
         }
     },
@@ -311,11 +236,9 @@ export default {
         if (this.isEdit) {
             this.formValidate = this.organizationData;
             this.formValidate.image = this.organizationData.organizationLogo;
-            this.imageUrl = this.organizationData.organizationLogo;
         } else {
             //新增
             this.formValidate.pid = this.organizationData.id;
-            this.socialUnityCdReadonly = this.organizationData.pid === null ? false : true;
         } 
     },
 

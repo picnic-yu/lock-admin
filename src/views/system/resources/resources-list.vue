@@ -151,6 +151,11 @@ export default {
 					prop: 'statusName',
 				},
 				{
+					label:'系统平台',
+					prop:'platform'
+
+				},
+				{
 					label: '描述',
 					prop: 'description',
 				},

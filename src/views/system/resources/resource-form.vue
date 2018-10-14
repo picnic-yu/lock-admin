@@ -39,13 +39,27 @@
                         </FormItem>
                     </Col>
                 </Row>
+				
+				
                 <Row>
                     <Col span="10" offset="1">
                         <FormItem label="资源图标" prop="icon">
                             <Input :maxlength=30 v-model="formValidate.icon" placeholder="请输入资源图标"></Input>
                         </FormItem>
                     </Col>
-                    <Col span="10" offset="1">
+					<Col span="10" offset="1">
+						<FormItem label="系统平台" prop="ip">
+							<Select v-model="formValidate.resourcePlatform"  placeholder="请输入系统平台">
+								<Option v-for="item in resourcePlatformList" :value="item.code" :key="item.value">
+									{{ item.value }}
+								</Option>
+							</Select>
+						</FormItem>
+					</Col>
+                    
+                </Row>
+                <Row>
+					<Col span="10" offset="1">
                         <FormItem label="是否启用" prop="status" >
                             <RadioGroup v-model="formValidate.status">
 								<Radio 
@@ -57,8 +71,6 @@
 							</RadioGroup>
                         </FormItem>
                     </Col>
-                </Row>
-                <Row>
                     <Col span="10" offset="1">
                         <FormItem label="资源描述" prop="description">
                             <Input :maxlength=60 v-model="formValidate.description" type="textarea" :autosize="{minRows: 5,maxRows: 5}" placeholder="请输入资源描述" > </Input>
@@ -175,6 +187,7 @@
 					status: 1,//是否启用
 					icon: '',//资源图标
 					resourceType: 0,//资源类型
+					resourcePlatform:'SYS'
 				},
 				roleNameError:false,//角色名称错误语句显示
 				isBack:false,
@@ -184,7 +197,17 @@
 					name: [
 						{ required: true, message: '请输入资源名称', trigger: 'change' }
 					]
-                },
+				},
+				resourcePlatformList:[
+					{
+					'code': 'SYS',
+					'value': '系统'
+					},
+					{
+					'code': 'APP',
+					'value': 'APP'
+					}
+				],
 				isLoading:false,
 				saveLoading: false
 			}

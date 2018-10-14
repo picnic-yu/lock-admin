@@ -3,7 +3,7 @@
         
         <section class="portlet-title" >
             <Icon type="person-stalker"></Icon>
-            <span class='title_text'>人员组织列表</span>
+            <span class='title_text'>单位组别</span>
         </section>
         <section class='list-wrap' v-show='!diaplayForm'>
             <Row type="flex" justify="center" align="top" :gutter='20' class="code-row-bg">

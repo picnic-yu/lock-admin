@@ -137,7 +137,7 @@ export default {
 					prop: 'roleDescription',
 				},
 				{
-					label: '角色状态',
+					label: '是否启用',
                     prop: 'resourceStatus',
                     align: 'center',
                     headerAlign: 'center'
