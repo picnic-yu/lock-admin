@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-01-29 10:24:39 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-09-26 09:59:09
+ * @Last Modified time: 2018-10-15 17:02:59
  */
 /**
  * 路由配置
@@ -71,6 +71,40 @@ export const otherRouter = {
 
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [
+    {
+        path: '/lock-manage',
+        icon: 'android-settings',
+        name: 'lock-list',
+        title: '锁具管理',
+        component: Main,
+        children: [
+            {
+                path: 'lock-info',
+                title: '锁信息管理',
+                name: 'lock-info',
+                icon: 'ios-paw',
+                component: resolve => {
+                    require(
+                        ['@/views/lock-manage/lock-info/info-list.vue'],
+                        resolve
+                    );
+                }
+            },
+            {
+                path: 'lock-seed',
+                title: '锁具种子管理',
+                name: 'lock-seed',
+                icon: 'ios-paw',
+                component: resolve => {
+                    require(
+                        ['@/views/lock-manage/lock-seed/seed-list.vue'],
+                        resolve
+                    );
+                }
+            },
+      
+        ]
+    },
     {
         path: '/system',
         icon: 'android-settings',
