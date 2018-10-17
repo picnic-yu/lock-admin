@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-01-29 10:24:39 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-10-15 17:02:59
+ * @Last Modified time: 2018-10-17 16:27:56
  */
 /**
  * 路由配置
@@ -86,6 +86,18 @@ export const appRouter = [
                 component: resolve => {
                     require(
                         ['@/views/lock-manage/lock-info/info-list.vue'],
+                        resolve
+                    );
+                }
+            },
+            {
+                path: 'lock-setting',
+                title: '顺序开锁设置',
+                name: 'lock-setting',
+                icon: 'ios-paw',
+                component: resolve => {
+                    require(
+                        ['@/views/lock-manage/lock-setting/list.vue'],
                         resolve
                     );
                 }
