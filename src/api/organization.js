@@ -54,6 +54,14 @@ export function getCurrentOrganization() {
 		method: 'get'
 	})
 }
-
+// /organizations/list
+// 用户查询单位组
+export function getOrgList(obj) {
+	return request({
+		url: `${BASE_URL}/organizations/list`,
+		method: 'post',
+		data:obj
+	})
+}
 
 
