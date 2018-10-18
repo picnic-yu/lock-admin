@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-02-01 17:39:26 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-05-04 10:19:51
+ * @Last Modified time: 2018-10-18 15:21:58
  */
 <template>
 	<div class="operate">
@@ -19,7 +19,18 @@
 				shape="circle" 
 				@click='addHandler'>新增</Button>
 		</span>
-
+        <span class='operate-btn' v-if='exportStatus'>
+			<Button type="primary" 
+				icon="plus-round" 
+				shape="circle" 
+				@click='handleExport'>导入</Button>
+		</span>
+        <span class='operate-btn' v-if='distributeStatus'>
+			<Button 
+				shape="circle" 
+				@click='handleDistribute'>批量分发</Button>
+		</span>
+        
 		<span class='operate-btn' v-show='edit'>
 			<Button type="warning" icon="edit" shape="circle" 
 				@click='editHandler'>编辑</Button>
@@ -93,10 +104,19 @@
 			addStatus: {
 				type: Boolean,
 				default: true
-			},
+            },
+            // 导入按钮
+            exportStatus:{
+                type:Boolean,
+                default:false
+            },
 			//编辑按钮
 			edit: {
 				type: Boolean,
+				default: false
+            },
+            distributeStatus:{
+                type: Boolean,
 				default: false
             },
             // 添加至观察户
@@ -240,7 +260,15 @@
 			//处理点击添加按钮事件
 			addHandler() {
 				this.$emit('addHandler');
-			},
+            },
+            // 处理导入按钮操纵
+            handleExport(){
+                this.$emit('handleExport');
+            },
+            // 批量分发
+            handleDistribute(){
+                this.$emit('handleDistribute');
+            },
 			//处理编辑点击事件
 			editHandler(data) {
 				this.$emit('editHandler',data);

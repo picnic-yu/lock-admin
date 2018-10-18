@@ -424,7 +424,6 @@ export default {
             isView:false,               //是否查看页面
             purchaseOrderNumber: '',
             detailItem: {},                 //查看详情的数据
-            modelStatus: false,             //查看详情model层状态
             lockForm:{
                 lockId:'',
                 locationAddress:'',//位置
