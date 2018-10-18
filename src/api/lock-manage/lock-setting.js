@@ -44,25 +44,41 @@ export function addGroupDetail(obj) {
 		data: obj
 	})
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// /lockInfo/staff/{id}
-// 删除锁具人员绑定
-export function deleteBindStaff(id) {
+// /lock/group/
+// 新增顺序开锁
+export function addGroup(obj) {
 	return request({
-        url: `${BASE_URL}/lockInfo/staff/${id}`,
+        url: `${BASE_URL}/lock/group/`,
+		method: `post`,
+		data: obj
+	})
+}
+// /lock/group/
+// 修改顺序开锁
+export function updateGroup(obj) {
+	return request({
+        url: `${BASE_URL}/lock/group/`,
+		method: `put`,
+		data: obj
+	})
+}
+// /lock/group/details/{id}
+// 删除开锁明细
+export function deleteGroupDetails(id) {
+	return request({
+        url: `${BASE_URL}/lock/group/details/${id}`,
 		method: `delete`
 	})
 }
+
+
+
+
+
+
+
+
+
+
+
+

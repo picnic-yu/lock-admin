@@ -47,22 +47,22 @@ const getGroupDetailsAction = (self, id) => {
                         align: 'center'
                     },
                     {
-                        title: '锁具id',
+                        title: '锁具ID',
                         align: 'center',
                         key: 'lockId'
                     },
                     {
                         title: '位置编号',
                         align: 'center',
-                        key: 'locationCode'
+                        key: 'lockLocationCode'
                     },
                     {
-                        title: '开锁',
+                        title: '开锁顺序',
                         align: 'center',
                         key: 'unlockOrder'
                     },
                     {
-                        title: '关锁',
+                        title: '关锁顺序',
                         align: 'center',
                         key: 'lockOrder'
                     },

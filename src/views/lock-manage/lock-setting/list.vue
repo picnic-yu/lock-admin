@@ -16,7 +16,7 @@
                     <div class="operate-wrap">
                         <button-group 
                             class='operate' 
-                            :addStatus="false" 
+                            @addHandler='addHandler'
                             :refreshStatus='true'
                             @refreshHandler = 'refreshHandler' >
                         </button-group>
@@ -50,14 +50,14 @@
         </section>
         <Modal v-model="editModalStatus" width="935">
 	        <p slot="header" style="color:#2db7f5;text-align:left">
-	            <span>编辑</span>
+	            <span>{{modalTitle}}</span>
 	        </p>
-	        <div class='editModal-wrap'>
+	        <div  :class="[lockForm.id ? 'editModal-wrap' : '']">
 				<Form ref="lockForm"  :rules="ruleValidate" :model="lockForm" :label-width="100">
                     <Row>
                         <Col span="10" offset="1">
-                            <FormItem label="锁具ID" prop="lockId">
-                                <Input v-model="lockForm.lockId" disabled :maxlength=20 ></Input>
+                            <FormItem label="顺序组合" prop="groupNumber">
+                                <Input v-model="lockForm.groupNumber" placeholder="请输入顺序组合" :maxlength=20 ></Input>
                             </FormItem>
                         </Col>
                         <Col span="10" offset="1">
@@ -74,28 +74,19 @@
                             </FormItem>
                         </Col>
                         <Col span="10" offset="1">
-                            <FormItem label="门磁编号" prop="dmCode">
-                                <Input v-model="lockForm.dmCode" :maxlength=20 placeholder="请输入门磁编号"></Input>
-                            </FormItem>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span="10" offset="1">
-                            <FormItem label="所属单位" prop="organizationId" >
-                                <Select v-model="lockForm.organizationId">
+                            <FormItem label="所属单位" prop="organizationInfoId" >
+                                <Select v-model="lockForm.organizationInfoId">
                                     <Option v-for="item in organizationList" :value="item.id" :key="item.organizationName">{{ item.organizationName }}</Option>
                                 </Select>
                             </FormItem>
                         </Col>
+                        
                     </Row>
-				</Form>
-                <Form ref="bindForm"  :rules="ruleValidateBind" :model="bindForm" :label-width="100">
-                   
                     <Row>
                         <Col span="10" offset="1">
-                            <FormItem label="姓名/手机号码" prop="principalId">
-                                <Select v-model="bindForm.principalId"
-                                    placeholder="请选择姓名/手机号码 "
+                            <FormItem label="责任人" prop="principalId">
+                                <Select v-model="lockForm.principalId"
+                                    placeholder="请选择责任人 "
                                     filterable
                                     remote
                                     :remote-method="remoteMethod1"
@@ -103,15 +94,54 @@
                                     :loading="principalLoading"
                                 >
                                     <Option v-for="item in principalList"
-                                        placeholder="请选择姓名/手机号码  " 
-                                        :value="item.id" :key="item.id">{{ item.personNameMobile }}</Option>
+                                        placeholder="请选择责任人  " 
+                                        :value="item.id" :key="item.id">{{ item.personName }}</Option>
                                 </Select>
                                 
                             
                             </FormItem>
                         </Col>
+                        
+                    </Row>
+				</Form>
+                <div class="group_detail" v-show='lockForm.id'>
+                    <span class='title_text'>
+                        <span style="display:inline-block;">开锁顺序</span>
+                    </span>
+                </div>
+                <Form ref="bindForm"  :rules="ruleValidateBind" :model="bindForm" :label-width="100" v-show='lockForm.id'>
+                    <Row>
+                        <Col span="10" offset="1">
+                            <FormItem label="锁具ID" prop="lockInfoId">
+                                <Select v-model="bindForm.lockInfoId"
+                                    placeholder="请选择锁具ID "
+                                    filterable
+                                    remote
+                                    :remote-method="lockIdRemote"
+                                    :label='""'
+                                    :loading="lockIdLoading"
+                                >
+                                    <Option v-for="item in lockIdList"
+                                        placeholder="请选择锁具ID  " 
+                                        :value="item.id" :key="item.id">{{ item.lockId }}</Option>
+                                </Select>
+                                
+                            </FormItem>
+                        </Col>
+                        <Col span="10" offset="1">
+                            <FormItem label="开锁顺序" prop="unlockOrder">
+                                <Input v-model="bindForm.unlockOrder" :maxlength=20 placeholder="请输入开锁顺序"></Input>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span="10" offset="1">
+                            <FormItem label="关锁顺序" prop="lockOrder">
+                                <Input v-model="bindForm.lockOrder" :maxlength=20 placeholder="请输入关锁顺序"></Input>
+                            </FormItem>
+                        </Col>
                         <Col span="10">
-                            <Button type="primary" style='margin-left:10px; mairgin-top: 5px;'  @click="handleBind">绑定</Button>
+                            <Button type="primary" :loading="detailBtn_loading" style='margin-left:10px; mairgin-top: 5px;'  @click="handleBind">添加</Button>
                         </Col>
                     </Row>
                     <Row>
@@ -149,23 +179,62 @@
 import buttonGroup from '@/views/components/button-group/index.vue';
 import searchForm from '@/views/components/search-form/index.vue';
 import expandRow from './table-expand';
-import {    deleteBindStaff } from '@/api/lock-manage/lock-info';
-import { getLockSettingInfo, getGroupDetails,getGroupInfo, deleteGroup} from '@/api/lock-manage/lock-setting';
+import {    getLockinfoList } from '@/api/lock-manage/lock-info';
+import { getLockSettingInfo, getGroupDetails,getGroupInfo, deleteGroup,addGroup,addGroupDetail, updateGroup, deleteGroupDetails} from '@/api/lock-manage/lock-setting';
 import { getOrgList } from '@/api/organization';
 import {getPrincipals} from '@/api/principals';
 import { lookUpdata } from '@/libs/lookup/lookupInfo';
 import lookupUtils from '@/libs/utils/lookupUtils';
 import util from '@/libs/utils/util';
-// 获取绑定人员列表
+// 新增顺序开锁
+const addGroupAction = (self) => {
+    self.modal_loading = true;
+    addGroup(self.lockForm).then(res=>{
+        self.modal_loading = false;
+        if(res.code == 201){
+            self.$Message.success('保存成功');
+            // self.editModalStatus = false;
+            getList(self,self.queryParam);
+        }else{
+            self.$Message.error('保存失败');
+            
+        }
+    }).catch((e)=>{
+        self.$Message.error('保存失败');
+        self.modal_loading = false;
+        
+    })
+}
+
+// 编辑顺序开锁
+const updateGroupAction = (self) => {
+    self.modal_loading = true;
+    updateGroup(self.lockForm).then(res=>{
+        self.modal_loading = false;
+        if(res.code == 201){
+            self.$Message.success('保存成功');
+            self.editModalStatus = false;
+            getList(self,self.queryParam);
+        }else{
+            self.$Message.error('保存失败');
+            
+        }
+    }).catch((e)=>{
+        self.$Message.error('保存失败');
+        self.modal_loading = false;
+        
+    })
+}
+// 获取明细列表
 const getGroupDetailsAction = (self, id) => {
    
     getGroupDetails(id).then(res=>{
        if(res.code == 200){
             self.bindlistData = res.content;
-            self.bindlistData.forEach((item) =>{
-                item.mobileNumber = item.principal.mobileNumber;
-                item.personName = item.principal.personName;
-            });
+            // self.bindlistData.forEach((item) =>{
+            //     item.mobileNumber = item.principal.mobileNumber;
+            //     item.personName = item.principal.personName;
+            // });
             
         }else{
             self.bindlistData = [];
@@ -178,17 +247,17 @@ const getGroupDetailsAction = (self, id) => {
     })
 }
 // 删除明细
-const deleteBindStaffAction = (self,id) => {
-    deleteBindStaff(id).then(res=>{
+const deleteGroupDetailsAction = (self,id) => {
+    deleteGroupDetails(id).then(res=>{
         if(res.code == 204){
-            self.$Message.success('解绑成功');
-            // getGroupDetailsAction(self, self.lockForm.id);
+            self.$Message.success('删除成功');
+            getGroupDetailsAction(self, self.lockForm.id);
             getList(self,self.queryParam)
         }else{
-            self.$Message.error('解绑失败');
+            self.$Message.error('删除失败');
         }
     }).catch((e)=>{
-       self.$Message.error('解绑失败');
+       self.$Message.error('删除失败');
     })
 }
 
@@ -219,7 +288,7 @@ const getOrgListAction=function(self){
        if(res.code == 200){
             self.organizationList = res.content;
             self.organizationList.forEach((item) => {
-                item.organizationId = item.id;
+                item.organizationInfoId = item.id;
             });
             console.log(self.organizationList)
         }else{
@@ -232,13 +301,33 @@ const getOrgListAction=function(self){
         
     })
 }
-// 根据id获取锁具信息
+// 锁具id远程加载，列表
+// getLockinfoList
+const getLockinfoListAction = (self,keyWords) => {
+    self.lockIdLoading = true;
+    return new Promise((resolve, reject) => {
+        getLockinfoList({keyWords:keyWords}).then(response => {
+            if(response.code == 200 ){
+                self.lockIdList = response.content;
+            }
+            self.lockIdLoading = false;
+            resolve()
+        }).catch(error => {
+            reject(error);
+            self.lockIdLoading = false;
+        })
+    })
+};
+// 根据id获取顺序开锁信息
 const getGroupInfoAction=function(self,id){
     
     getGroupInfo(id).then(res=>{
        if(res.code == 200){
-            Object.assign(self.lockForm, res.content,{organizationId:res.content.organizationInfo.id});
-            // sefl.lockForm.organizationId = res.content.organizationInfo.id;
+            Object.assign(self.lockForm, res.content,{
+                organizationInfoId:res.content.organizationInfo.id,
+                principalId:res.content.principal.id
+            });
+            // sefl.lockForm.organizationInfoId = res.content.organizationInfo.id;
         }
        
     }).catch((e)=>{
@@ -263,7 +352,7 @@ const deleteGroupAction = (self,id) => {
 const getPrincipalsAction = (self,personName) => {
     self.principalLoading = true;
     return new Promise((resolve, reject) => {
-        getPrincipals({keyWords:personName}).then(response => {
+        getPrincipals({personName:personName}).then(response => {
             if(response.code == 200 ){
                 self.principalList = response.content;
             }
@@ -278,18 +367,19 @@ const getPrincipalsAction = (self,personName) => {
 // 新增明细
 
 const addGroupDetailAction=function(self){
-    
+    self.detailBtn_loading = true;
     addGroupDetail(self.bindForm).then(res=>{
-       
-        if(res.code == 200){
-            self.$Message.success('绑定成功');
+        self.detailBtn_loading = false;
+        if(res.code == 201){
+            self.$Message.success('保存成功');
+            getGroupDetailsAction(self, self.lockForm.id);
         }else{
-            self.$Message.error('绑定失败');
+            self.$Message.error('保存失败');
             
         }
     }).catch((e)=>{
-        self.$Message.error('绑定失败');
-        
+        self.$Message.error('保存失败');
+        self.detailBtn_loading = false;
         
     })
 }
@@ -348,7 +438,7 @@ export default {
                 },
                 {
                     title: '创建人',
-                    key: 'creater',
+                    key: 'creatorName',
                     align: 'center'
                 },
                 
@@ -407,13 +497,13 @@ export default {
             detailItem: {},                 //查看详情的数据
             modelStatus: false,             //查看详情model层状态
             lockForm:{
-                lockId:'',
+                groupNumber:'',
                 locationAddress:'',//位置
                 locationCode:'',//位置编号
-                dmCode:'',//门磁编码
-                organizationId:'',//所属单位id
-                
+                organizationInfoId:'',//所属单位id
+                principalId:''
             },//编辑锁信息表单
+            detailBtn_loading:false,//添加明细按钮loading
             ruleValidate:{
                 locationAddress: [
                     {required: true, message: '请输入位置', trigger: 'change'}
@@ -421,28 +511,42 @@ export default {
                 locationCode: [
                     {required: true, message: '请输入位置编号', trigger: 'change'}
                 ],
-                dmCode: [
-                    {required: true, message: '请输入门磁编码', trigger: 'change'}
+                groupNumber:[
+                    {required: true, message: '请输入顺序组合', trigger: 'change'}
                 ],
-                organizationId: [
+                organizationInfoId: [
                     {required: true, message: '请输入所属单位', trigger: 'change'}
                 ],
+                principalId: [
+                    {required: true, message: '请选择姓名/手机号码 ', trigger: 'change'}
+                ]
             },//规则校验
             editModalStatus:false,//编辑弹出层
             organizationList:[],
             principalLoading:false,
             principalList:[],//人员列表
             bindForm:{
-                principalId:'',
-                lockInfoId:''
+                unlockOrder:'',//开锁顺序
+                lockOrder:'',//关锁顺序
+                lockGroupId:'',//顺序开锁id
+                lockInfoId:''//锁具id
             },
             ruleValidateBind:{
-                principalId: [
-                    {required: true, message: '请选择姓名/手机号码 ', trigger: 'change'}
-                ]
+                unlockOrder: [
+                    {required: true, message: '请输入开锁顺序', trigger: 'change'}
+                ],
+                lockOrder:[
+                    {required: true, message: '请输入关锁顺序', trigger: 'change'}
+                ],
+                lockInfoId: [
+                    {required: true, message: '请选择锁具id', trigger: 'change'}
+                ],
             },
             modal_loading:false,//弹出层按钮loading
             bindlistData:[],
+            modalTitle:'新增',
+            lockIdLoading:false,//远程加载lockid loading
+            lockIdList:[],//远程加载lockid列表
             bindColumn: [
                 {
                     title: '序号',
@@ -451,14 +555,24 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '姓名',
+                    title: '锁具ID',
                     align: 'center',
-                    key: 'personName'
+                    key: 'lockId'
                 },
                 {
-                    title: '手机号',
+                    title: '位置编号',
                     align: 'center',
-                    key: 'mobileNumber'
+                    key: 'lockLocationCode'
+                },
+                {
+                    title: '开锁顺序',
+                    align: 'center',
+                    key: 'unlockOrder'
+                },
+                {
+                    title: '关锁顺序',
+                    align: 'center',
+                    key: 'lockOrder'
                 },
                 {
                     title: '操作',
@@ -477,7 +591,7 @@ export default {
                                         this.handleDetele(params.index)
                                     }
                                 }
-                            }, '解绑')
+                            }, '删除')
                         ]);
                     }
                 }
@@ -523,21 +637,24 @@ export default {
         handleEdit(index){
             console.log(this.organizationList,'organizationList')
             console.log(this.lockForm,'lockForm');
+            this.modalTitle = '编辑';
             this.lockForm.id = this.listData[index].id;
-            this.bindForm.lockInfoId = this.listData[index].id;
+            // this.bindForm.lockInfoId = this.listData[index].id;
             this.handleReset('lockForm');
             this.handleReset('bindForm');
             this.editModalStatus = true;
             getGroupInfoAction(this,this.listData[index].id);
-            // getGroupDetailsAction(this,this.listData[index].id)
+            getGroupDetailsAction(this,this.listData[index].id)
         },
         handleSubmit(){
             this.$refs['lockForm'].validate((valid) => {
                 if (valid) {
-                    this.$Message.success('Success!');
-                } else {
-                    this.$Message.error('Fail!');
-                }
+                    if(!this.lockForm.id){
+                        addGroupAction(this);
+                    }else{
+                        updateGroupAction(this);
+                    }
+                } 
             })
         },
         handleCancle(){
@@ -565,6 +682,15 @@ export default {
         handleExpand(row,status){
             console.log(row)
         },
+        lockIdRemote(query){
+            if (query !== '') {
+                // this.companyName = query;
+                
+                getLockinfoListAction(this,query);
+            } else {
+                this.lockIdList = [];
+            }
+        },
         remoteMethod1 (query) {
             if (query !== '') {
                 // this.companyName = query;
@@ -574,10 +700,20 @@ export default {
                 this.principalList = [];
             }
         },
+        // 新增顺序组合
+        addHandler(){
+            this.modalTitle = '新增';
+            this.lockForm.id = '';
+            this.bindForm.lockInfoId = '';
+            this.handleReset('lockForm');
+            this.handleReset('bindForm');
+            this.editModalStatus = true;
+        },
         // 新增明细
         handleBind(){
             this.$refs['bindForm'].validate((valid) => {
                 if (valid) {
+                    this.bindForm.lockGroupId = this.lockForm.id;
                     addGroupDetailAction(this);
                 } 
             })
@@ -591,7 +727,7 @@ export default {
                 cancelText: '取消',
                 onOk: () => {
 
-                    deleteBindStaffAction(this,this.bindlistData[index].id);
+                    deleteGroupDetailsAction(this,this.bindlistData[index].id);
                 },
                 onCancel: () => {
                     
@@ -614,5 +750,11 @@ export default {
     .editModal-wrap{
         max-height:500px !important;
         overflow: auto;
+    }
+    .group_detail{
+        border-bottom: 1px dashed #cccc;
+        color:#495060 !important;
+        font-size: 16px;
+        margin-bottom: 10px;
     }
 </style>

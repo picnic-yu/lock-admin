@@ -81,8 +81,8 @@
                     </Row>
                     <Row>
                         <Col span="10" offset="1">
-                            <FormItem label="所属单位" prop="organizationId" >
-                                <Select v-model="lockForm.organizationId">
+                            <FormItem label="所属单位" prop="organizationInfoId" >
+                                <Select v-model="lockForm.organizationInfoId">
                                     <Option v-for="item in organizationList" :value="item.id" :key="item.organizationName">{{ item.organizationName }}</Option>
                                 </Select>
                             </FormItem>
@@ -149,12 +149,32 @@
 import buttonGroup from '@/views/components/button-group/index.vue';
 import searchForm from '@/views/components/search-form/index.vue';
 import expandRow from './table-expand';
-import { getLockInfo, deletelockInfo, getLockInfoById, bindlockStall, getBindingStaff, deleteBindStaff } from '@/api/lock-manage/lock-info';
+import { getLockInfo, deletelockInfo, getLockInfoById, bindlockStall, getBindingStaff, deleteBindStaff,updateLockinfo } from '@/api/lock-manage/lock-info';
 import { getOrgList } from '@/api/organization';
 import {getPrincipals} from '@/api/principals';
 import { lookUpdata } from '@/libs/lookup/lookupInfo';
 import lookupUtils from '@/libs/utils/lookupUtils';
 import util from '@/libs/utils/util';
+updateLockinfo
+// 更新锁信息
+const updateLockinfoAction = (self) => {
+    self.modal_loading = true;
+    updateLockinfo(self.lockForm).then(res=>{
+        self.modal_loading = false;
+        if(res.code == 201){
+            self.$Message.success('保存成功');
+            self.editModalStatus = false;
+            getList(self,self.queryParam);
+        }else{
+            self.$Message.error('保存失败');
+            
+        }
+    }).catch((e)=>{
+        self.$Message.error('保存失败');
+        self.modal_loading = false;
+        
+    })
+}
 // 获取绑定人员列表
 const getBindingStaffAction = (self, id) => {
    
@@ -182,7 +202,7 @@ const deleteBindStaffAction = (self,id) => {
         if(res.code == 204){
             self.$Message.success('解绑成功');
             getBindingStaffAction(self, self.lockForm.id);
-            getList(self,self.queryParam)
+            
         }else{
             self.$Message.error('解绑失败');
         }
@@ -218,7 +238,7 @@ const getOrgListAction=function(self){
        if(res.code == 200){
             self.organizationList = res.content;
             self.organizationList.forEach((item) => {
-                item.organizationId = item.id;
+                item.organizationInfoId = item.id;
             });
             console.log(self.organizationList)
         }else{
@@ -236,8 +256,8 @@ const getLockInfoByIdAction=function(self,id){
     
     getLockInfoById(id).then(res=>{
        if(res.code == 200){
-            Object.assign(self.lockForm, res.content,{organizationId:res.content.organizationInfo.id});
-            // sefl.lockForm.organizationId = res.content.organizationInfo.id;
+            Object.assign(self.lockForm, res.content,{organizationInfoId:res.content.organizationInfo.id});
+            // sefl.lockForm.organizationInfoId = res.content.organizationInfo.id;
         }
        
     }).catch((e)=>{
@@ -280,8 +300,9 @@ const bindlockStallAction=function(self){
     
     bindlockStall(self.bindForm).then(res=>{
        
-        if(res.code == 200){
+        if(res.code == 201){
             self.$Message.success('绑定成功');
+            getBindingStaffAction(self, self.lockForm.id);
         }else{
             self.$Message.error('绑定失败');
             
@@ -409,7 +430,7 @@ export default {
                 locationAddress:'',//位置
                 locationCode:'',//位置编号
                 dmCode:'',//门磁编码
-                organizationId:'',//所属单位id
+                organizationInfoId:'',//所属单位id
                 
             },//编辑锁信息表单
             ruleValidate:{
@@ -422,7 +443,7 @@ export default {
                 dmCode: [
                     {required: true, message: '请输入门磁编码', trigger: 'change'}
                 ],
-                organizationId: [
+                organizationInfoId: [
                     {required: true, message: '请输入所属单位', trigger: 'change'}
                 ],
             },//规则校验
@@ -532,10 +553,8 @@ export default {
         handleSubmit(){
             this.$refs['lockForm'].validate((valid) => {
                 if (valid) {
-                    this.$Message.success('Success!');
-                } else {
-                    this.$Message.error('Fail!');
-                }
+                    updateLockinfoAction(this);
+                } 
             })
         },
         handleCancle(){

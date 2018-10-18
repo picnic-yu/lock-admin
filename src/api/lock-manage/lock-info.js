@@ -52,3 +52,22 @@ export function deleteBindStaff(id) {
 		method: `delete`
 	})
 }
+// /lockInfo/
+// 修改锁具
+export function updateLockinfo(obj) {
+	return request({
+        url: `${BASE_URL}/lockInfo/`,
+		method: `put`,
+		data: obj
+	})
+}
+
+// /lockInfo/list
+// 锁具列表
+export function getLockinfoList(obj) {
+	return request({
+        url: `${BASE_URL}/lockInfo/list`,
+		method: `post`,
+		data: obj
+	})
+}
