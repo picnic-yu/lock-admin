@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-01-29 10:24:39 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-10-17 16:27:56
+ * @Last Modified time: 2018-10-22 15:10:42
  */
 /**
  * 路由配置
@@ -114,6 +114,64 @@ export const appRouter = [
                     );
                 }
             },
+      
+        ]
+    },
+    {
+        path: '/reports',
+        icon: 'android-settings',
+        name: 'reports',
+        title: '数据报表',
+        component: Main,
+        children: [
+            {
+                path: 'auth-list',
+                title: '授权记录',
+                name: 'auth-list',
+                icon: 'ios-paw',
+                component: resolve => {
+                    require(
+                        ['@/views/reports/auth-list/list.vue'],
+                        resolve
+                    );
+                }
+            },
+            {
+                path: 'performing-tasks',
+                title: '任务执行记录',
+                name: 'performing-tasks',
+                icon: 'ios-paw',
+                component: resolve => {
+                    require(
+                        ['@/views/reports/performing-tasks/list.vue'],
+                        resolve
+                    );
+                }
+            },
+            {
+                path: 'unlock-list',
+                title: '开锁记录',
+                name: 'unlock-list',
+                icon: 'ios-paw',
+                component: resolve => {
+                    require(
+                        ['@/views/reports/unlock-list/list.vue'],
+                        resolve
+                    );
+                }
+            },
+            {
+                path: 'login-list',
+                title: '系统登录记录',
+                name: 'login-list',
+                icon: 'ios-paw',
+                component: resolve => {
+                    require(
+                        ['@/views/reports/login-list/list.vue'],
+                        resolve
+                    );
+                }
+            }
       
         ]
     },

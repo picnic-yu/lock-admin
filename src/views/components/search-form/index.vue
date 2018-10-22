@@ -142,6 +142,7 @@
 			},
 			query() {
 				let self = this;
+				this.handleBodyClick();
 				this.queryParam.keyWords = this.value;
 				this.queryParam.selectData = this.searchdata;
 				
@@ -210,20 +211,20 @@
 		},
 		mounted(){
 			this.$nextTick(() => {
-				document.querySelector('body').addEventListener('click', (event) => {
+				// document.querySelector('body').addEventListener('click', (event) => {
 					
-					if( event.target.className.indexOf('show_wrap') > -1) return;
-					if( event.target.className.indexOf('ivu-icon') > -1) return;
-					if( event.target.className.indexOf('ivu-select-placeholder') > -1) return;
-					if( event.target.className.indexOf('ivu-radio-wrapper') > -1) return;
-					if( event.target.className.indexOf('ivu-radio-input') > -1) return;
-					if( event.target.parentElement.className.indexOf('show_wrap') > -1 ) return;
-					if( event.target.parentElement.parentElement.className && event.target.parentElement.parentElement.className.indexOf('show_wrap') > -1 ) return;
+				// 	if( event.target.className.indexOf('show_wrap') > -1) return;
+				// 	if( event.target.className.indexOf('ivu-icon') > -1) return;
+				// 	if( event.target.className.indexOf('ivu-select-placeholder') > -1) return;
+				// 	if( event.target.className.indexOf('ivu-radio-wrapper') > -1) return;
+				// 	if( event.target.className.indexOf('ivu-radio-input') > -1) return;
+				// 	if( event.target.parentElement.className.indexOf('show_wrap') > -1 ) return;
+				// 	if( event.target.parentElement.parentElement.className && event.target.parentElement.parentElement.className.indexOf('show_wrap') > -1 ) return;
 
-					if( event.target.className.indexOf('hide_wrap') < 0 && event.target.parentElement.className.indexOf('hide_wrap') < 0){
-						this.handleBodyClick();
-					}
-				});
+				// 	if( event.target.className.indexOf('hide_wrap') < 0 && event.target.parentElement.className.indexOf('hide_wrap') < 0){
+				// 		this.handleBodyClick();
+				// 	}
+				// });
 			})
 
 			this.inputList.forEach((item) => {

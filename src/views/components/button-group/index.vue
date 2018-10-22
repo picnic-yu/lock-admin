@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-02-01 17:39:26 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-10-18 15:21:58
+ * @Last Modified time: 2018-10-22 19:10:50
  */
 <template>
 	<div class="operate">
@@ -280,7 +280,7 @@
                     okText: '确定',
                     cancelText: '取消',
                     onOk: () => {
-                        this.$emit('deleteHandler',this.data.id)
+                        this.$emit('deleteHandler')
                     },
                     onCancel: () => {
                         
