@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-01-29 10:24:39 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-10-22 15:10:42
+ * @Last Modified time: 2018-10-23 17:50:29
  */
 /**
  * 路由配置
@@ -115,6 +115,27 @@ export const appRouter = [
                 }
             },
       
+        ]
+    },
+    {
+        path: '/task',
+        icon: 'android-settings',
+        name: 'task',
+        title: '任务管理',
+        component: Main,
+        children: [
+            {
+                path: 'task-list',
+                title: '任务管理',
+                name: 'task-list',
+                icon: 'ios-paw',
+                component: resolve => {
+                    require(
+                        ['@/views/task/task-list.vue'],
+                        resolve
+                    );
+                }
+            }
         ]
     },
     {
