@@ -3,11 +3,27 @@
         <header>
             <div class="portlet-title">
                 <span class='title_text'>
-                    <Icon type="ios-search"></Icon>
+                    <Icon type="ios-browsers"></Icon>
                     <span style="display:inline-block;">{{titleText}}</span>
                 </span>
             </div>
         </header>
+        <section class='count-wrap'>
+            <Row :gutter='30'>
+                <Col span="8" class='count-item'>
+                    <div class='title'>锁具操作达人</div>
+                    <div class='count'>{{recordCount.talent}}</div>
+                </Col>
+                <Col span="8" class='count-item'>
+                    <div class='title'>使用频次最高锁具</div>
+                    <div class='count'>{{recordCount.most}}</div>
+                </Col>
+                <Col span="8" class='count-item'>
+                    <div class='title'>本周累计开关锁</div>
+                    <div class='count'>{{recordCount.total}}</div>
+                </Col>
+            </Row>
+        </section>
         <!-- 列表开始 -->
         <section v-if='!isShowForm'>
             <div class='table-wrap'>
@@ -16,8 +32,10 @@
                     <div class="operate-wrap">
                         <button-group 
                             class='operate' 
+                            :deleteStatus='deleteStatus' 
                             :addStatus="false" 
                             :refreshStatus='true'
+                            @deleteHandler='deleteHandler'
                             @refreshHandler = 'refreshHandler' >
                         </button-group>
                     </div>
@@ -25,7 +43,6 @@
                         <searchForm 
                             class='search-component' 
                             :searchdata='searchdata'
-                            :inputList='inputList'
                             :removeInputFlag='removeInputFlag'
                             :placeholderValue='placeholderValue'
                             @query='query' >
@@ -33,6 +50,7 @@
                     </div>
                 </div>
                 <i-table stripe  
+                    @on-selection-change='selectionChange'
 					:columns="ipColum" 
 					:data="listData" > 
 				</i-table>
@@ -57,7 +75,7 @@
 import buttonGroup from '@/views/components/button-group/index.vue';
 import searchForm from '@/views/components/search-form/index.vue';
 
-import { getLockSeed } from '@/api/lock-manage/lock-seed';
+import {getUnlockCount, deleteUnlock, getUnlockList } from '@/api/reports/unlock-list';
 import { lookUpdata } from '@/libs/lookup/lookupInfo';
 import lookupUtils from '@/libs/utils/lookupUtils';
 import util from '@/libs/utils/util';
@@ -65,7 +83,7 @@ import util from '@/libs/utils/util';
 // 获取列表
 const getList=function(self,params){
     self.isLoading=true;
-    getLockSeed(params).then(res=>{
+    getUnlockList(params).then(res=>{
         self.isLoading = false;
         
         if(res.code == 200){
@@ -81,8 +99,55 @@ const getList=function(self,params){
         self.total = 0;
     })
 }
+const getUnlockCountAction=function(self){
+    getUnlockCount().then(res=>{
+        if(res.code == 200){
+            self.recordCount = res.content;
+        }
+    }).catch(()=>{
+        
+    })
+}
+// 删除
+const deleteUnlockAction = (self) => {
+    deleteUnlock(self.ids).then(res=>{
+        if(res.code == 204){
+            self.$Message.success('删除成功');
+            self.getListData();
+        }else{
+            self.$Message.error('删除失败');
+        }
+    }).catch((e)=>{
+       self.$Message.error('删除失败');
+    })
+}
+const statusList =  [
+    {
+        "code": "",
+        "value": "全部"
+    },
+    {
+        "code": "1",
+        "value": "进行中"
+    },
+    {
+        "code": "2",
+        "value": "等待中"
+    },
+    // {
+    //     'value': '全部',
+    //     'code': '1'
+    // },
+    // {
+    //     'value': '进行中',
+    //     'value': '1'
+    // },
+    // {
+    //     'value': '等待中',
+    //     'code': '2'
+    // }
+];
 export default {
-    name:'shutdown-list',
     components: {
         buttonGroup,
         searchForm,
@@ -92,12 +157,22 @@ export default {
 
     data() {
         return {
-            titleText:"锁具种子管理",
-            placeholderValue:"输入锁具ID",
+            recordCount:{
+                talent:'',//锁具操作达人
+                total:0,//本周累计开关锁
+                most:''//使用频次最高锁具
+            },
+            titleText:"开关锁记录",
+            placeholderValue:"输入锁具ID或执行人",
             listData: [],
             isLoading: false,
             total: 0,
             ipColum:[
+                {
+                    type: 'selection',
+                    width: 60,
+                    align: 'center'
+                },
                 {
                     title: '序号',
                     type: 'index',
@@ -110,69 +185,29 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '密钥',
-                    key: 'lockPassword',
+                    title: '执行人',
+                    key: 'executorName',
                     align: 'center'
                 },
                 {
-                    title: '版本',
-                    key: 'version',
+                    title: '任务类别',
+                    key: 'displayTaskType',
                     align: 'center'
                 },
                 {
-                    title: '分发状态',
-                    key: 'status',
+                    title: '动作',
+                    key: 'displayActionType',
                     align: 'center'
                 },
                 {
-                    title: '录入时间',
-                    key: 'displayCT',
+                    title: '操作时间',
+                    key: 'displayAT',
                     align: 'center'
                 },
                 {
-                    title: '分发时间',
-                    key: 'distributionTime',
+                    title: '锁具位置',
+                    key: 'locationAddress',
                     align: 'center'
-                },
-                {
-                    title: '最后修改时间',
-                    key: 'displayLMT',
-                    align: 'center'
-                },
-                {
-                    title: '操作',
-                    key: 'action',
-                    width: 150,
-                    align: 'center',
-                    render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {
-                                    type: 'primary',
-                                    size: 'small'
-                                },
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.handleEdit(params.row)
-                                    }
-                                }
-                            }, '编辑'),
-                            h('Button', {
-                                props: {
-                                    type: 'error',
-                                    size: 'small'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.handleDelete(params.index)
-                                    }
-                                }
-                            }, '删除')
-                        ]);
-                    }
                 }
             ],
             selectRowData: {},           //选择一行数据
@@ -180,8 +215,9 @@ export default {
                 "pageSize": 10,
                 "keyWords": '',
                 "pageNumber": 0,
-                "communicationPlan":'node-1'
             },
+            ids:'',//删除多个id
+            deleteStatus:false,
             addStatus:true,         //新增按钮的状态
             removeInputFlag:0,
             isShowForm:false,
@@ -190,26 +226,13 @@ export default {
             isView:false,               //是否查看页面
             purchaseOrderNumber: '',
             detailItem: {},                 //查看详情的数据
-            modelStatus: false,             //查看详情model层状态
-            inputList:[
-                {
-                    title: "IP地址",
-                    placeholder:'请输入IP地址',
-                    value:''
-                },
-                {
-                    title: "ICCID",
-                    placeholder:'请输入ICCID',
-                    value:''
-                },
-                {
-                    title: "IMEI",
-                    placeholder:'请输入IMEI',
-                    value:''
+            searchdata:[{
+                    title: "状态",
+                    model: '全部',
+                    code: '',
+                    data: statusList
                 }
             ],
-            searchdata: [
-            ]
         }
     },
 
@@ -218,6 +241,16 @@ export default {
     methods: {
         init () {
             this.getListData();
+        },
+        // 选中table数据变化
+        selectionChange(selection){
+            selection.length == 0 ? this.deleteStatus = false : this.deleteStatus = true;
+            
+            let arr = [];
+            selection.forEach((item) => {
+                arr.push(item.id);
+            });
+            this.ids = arr.join(',');
         },
         pageChange(data) {
             this.queryParam.pageNumber = data -1;
@@ -230,20 +263,12 @@ export default {
             this.editStatus = false;
             this.isView = false;
             getList(this,this.queryParam);
-        },
-        handleEdit(row){
-
-        },
-        handleDelete(){
-
+            getUnlockCountAction(this);
         },
         // 查询列表
         query(data) {
-            this.queryParam.sensorNumber = data.keyWords;
-            this.queryParam.ipAddress = data.inputList[0].value;
-            this.queryParam.iccid = data.inputList[1].value;
-            this.queryParam.imei = data.inputList[2].value;
-            this.queryParam.communicationPlan = data.selectData[0].code;
+            this.queryParam.keyWords = data.keyWords;
+            this.queryParam.status = data.selectData[0].code;
             this.getListData();
         },   
         // 刷新页面
@@ -251,6 +276,10 @@ export default {
             this.queryParam.pageNumber = 0;
             this.queryParam.keyWords = '';
             this.removeInputFlag += 1;
+        },
+        // 删除多个
+        deleteHandler() {
+            deleteUnlockAction(this);
         },
         
     },
@@ -264,4 +293,33 @@ export default {
 
 <style lang='less' scoped>
     @import "../../../styles/searchAndOperate.less";
+    .count-wrap{
+        background: #FFF;
+        margin-bottom:20px;
+        .count-item{
+            height:60px;
+            margin:15px 0; 
+            border-right:1px solid #ccc;
+            .title{
+                height:30px;
+                line-height: 30px;
+                text-align: center;
+                font-family: 'PingFangSC-Regular', 'PingFang SC';
+                color: rgba(0, 0, 0, 0.447058823529412);
+                font-size: 14px;
+            }
+            .count{
+                height:30px;
+                line-height: 30px;
+                text-align: center;
+                font-family: 'Helvetica';
+                color: rgba(0, 0, 0, 0.847058823529412);
+                font-size: 24px;
+            }
+        }
+        .count-item:last-child{
+            border-right:none;
+        }
+        
+    }
 </style>

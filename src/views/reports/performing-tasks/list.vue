@@ -163,7 +163,7 @@ export default {
                 most:0//单任务累计执行最高次数
             },
             titleText:"任务列表",
-            placeholderValue:"输入锁具ID",
+            placeholderValue:"输入任务ID或执行人",
             listData: [],
             isLoading: false,
             total: 0,
