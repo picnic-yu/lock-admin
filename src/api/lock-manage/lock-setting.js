@@ -70,6 +70,15 @@ export function deleteGroupDetails(id) {
 		method: `delete`
 	})
 }
+// /lock/group/list
+// 锁具列表
+export function getLockGroupList(obj) {
+	return request({
+        url: `${BASE_URL}/lock/group/list`,
+		method: `post`,
+		data: obj
+	})
+}
 
 
 

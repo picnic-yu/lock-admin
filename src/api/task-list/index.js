@@ -27,3 +27,24 @@ export function deleteTaskByIds(ids) {
 		method: `delete`
 	})
 }
+
+
+// /task/
+// 新增任务
+export function addTask(obj) {
+	return request({
+        url: `${BASE_URL}/task/`,
+		method: `post`,
+		data: obj
+	})
+}
+
+// /task/
+// 编辑任务
+export function editTask(obj) {
+	return request({
+        url: `${BASE_URL}/task/`,
+		method: `put`,
+		data: obj
+	})
+}

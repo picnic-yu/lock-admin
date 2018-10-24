@@ -2,7 +2,7 @@
  * @Author: Hano.zhang 
  * @Date: 2018-02-01 15:19:26 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-10-22 19:58:13
+ * @Last Modified time: 2018-10-24 11:08:43
  */
 // 数据字典
 export default {
@@ -35,6 +35,16 @@ export default {
         {
             code: 'DEPT',
             value: '部门'
+        }
+    ],
+    "taskTypeLookup": [
+        {
+            code: '1',
+            value: '单锁'
+        },
+        {
+            code: '2',
+            value: '组合'
         }
     ],
     // 设备解锁机申请状态
