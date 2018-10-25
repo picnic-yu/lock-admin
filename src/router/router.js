@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-01-29 10:24:39 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-10-23 17:50:29
+ * @Last Modified time: 2018-10-25 10:09:17
  */
 /**
  * 路由配置
@@ -132,6 +132,27 @@ export const appRouter = [
                 component: resolve => {
                     require(
                         ['@/views/task/task-list.vue'],
+                        resolve
+                    );
+                }
+            }
+        ]
+    },
+    {
+        path: '/principal',
+        icon: 'android-settings',
+        name: 'principal',
+        title: '用户管理',
+        component: Main,
+        children: [
+            {
+                path: 'certification',
+                title: '任务管理',
+                name: 'certification',
+                icon: 'ios-paw',
+                component: resolve => {
+                    require(
+                        ['@/views/principal/certification/list.vue'],
                         resolve
                     );
                 }
