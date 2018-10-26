@@ -87,6 +87,11 @@
                                 </Select>
                             </FormItem>
                         </Col>
+                        <Col span="10" offset="1">
+                            <FormItem label="设施名称" prop="facilityName">
+                                <Input v-model="lockForm.facilityName" :maxlength=20 placeholder="请输入设施名称"></Input>
+                            </FormItem>
+                        </Col>
                     </Row>
 				</Form>
                 <Form ref="bindForm"  :rules="ruleValidateBind" :model="bindForm" :label-width="100">
@@ -357,6 +362,11 @@ export default {
                     align: 'center'
                 },
                 {
+                    title:'设施名称',
+                    key: 'facilityName',
+                    align: 'center'
+                },
+                {
                     title:'位置编号',
                     key:'locationCode',
                     align:'center'
@@ -445,6 +455,9 @@ export default {
                 organizationInfoId: [
                     {required: true, message: '请输入所属单位', trigger: 'change'}
                 ],
+                facilityName:[
+                    {required: true, message: '请输入设施名称', trigger: 'change'}
+                ]
             },//规则校验
             editModalStatus:false,//编辑弹出层
             organizationList:[],

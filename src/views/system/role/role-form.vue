@@ -29,7 +29,21 @@
 			<Row>
 				<Col span="10" offset="1">
 					<FormItem label="角色描述" prop="roleDescription">
-						<Input v-model="formValidate.roleDescription" :maxlength=50 type="textarea" :autosize="{minRows: 5,maxRows: 5}" placeholder="请输入角色描述" > </Input>
+						<Input v-model="formValidate.roleDescription" :maxlength=50 type="textarea" :autosize="{minRows: 2,maxRows: 3}" placeholder="请输入角色描述" > </Input>
+					</FormItem>
+				</Col>
+			</Row>
+			<Row>
+				<Col span="10" offset="1">
+					<FormItem label="勾选权限">
+						<CheckboxGroup v-model="permissionArr">
+							<Checkbox v-for="item in permissionLookup" 
+								:key='item.code' 
+								:label="item.code">
+								{{item.value}}
+							</Checkbox>
+							
+						</CheckboxGroup>
 					</FormItem>
 				</Col>
 			</Row>
@@ -52,7 +66,7 @@
 </template>
 
 <script>
-    
+    import lookUpdata  from '@/libs/lookup/lookupInfo';
     import { addRole, updataRole  } from '@/api/system/roleInfo';
     const addRoleAction = (self) => {
         self.isLoading = true;
@@ -150,7 +164,9 @@
 					]					
                 },
 				isLoading:false,
-				saveLoading: false
+				saveLoading: false,
+				permissionArr:[],
+				permissionLookup:lookUpdata.permissionLookup
 			}
 
 		},
@@ -165,6 +181,7 @@
 			init() {
 				if(this.isEdit) {
 					this.formValidate = this.formTreeData;
+					this.permissionArr = this.formValidate.permission;
 				}else{
                     this.formValidate.pid = this.formTreeData.id;
                 }
@@ -174,6 +191,8 @@
             handleSubmit(name){
                 this.$refs[name].validate((valid) => {
                     if (valid) {
+						this.formValidate.permission = this.permissionArr.join(',');
+						
 						this.saveLoading = true;
                         if(!this.isEdit){
                             addRoleAction(this);

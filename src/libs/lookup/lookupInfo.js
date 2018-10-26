@@ -2,7 +2,7 @@
  * @Author: Hano.zhang 
  * @Date: 2018-02-01 15:19:26 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-10-24 11:08:43
+ * @Last Modified time: 2018-10-25 20:11:03
  */
 // 数据字典
 export default {
@@ -62,5 +62,34 @@ export default {
             'value': '已完成'
         }
     ],
-    
+    "permissionLookup":[
+        {
+            'code': 'SL',
+            'value': '系统登录'
+        },
+        {
+            'code': 'AL',
+            'value': 'APP登录'
+        },
+        {
+            'code': 'AU',
+            'value': '锁具授权'
+        },
+        {
+            'code': 'GS',
+            'value': '组合开锁监护'
+        },
+        {
+            'code': 'LB',
+            'value': '锁具绑定'
+        },
+        {
+            'code': 'VE',
+            'value': '实名认证审核'
+        },
+        {
+            'code': 'LA',
+            'value': '修改锁具地址'
+        }
+    ]
 }

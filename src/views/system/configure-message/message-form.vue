@@ -1,6 +1,9 @@
 <template>
-    <section>
-
+    <section class='property-list'>
+        <div class="portlet-title" v-show='!showLog'>
+			<Icon type="person-stalker"></Icon>
+			<span class='title_text'>{{titleText}}</span>
+		</div>
         <Form ref="formValidate" class= 'formvalidate-wrap' :model="formValidate" :rules="ruleValidate" :label-width="140">
             <Row>
                 <Col span="21" offset="1">
@@ -415,6 +418,7 @@
 </script>
 
 <style lang="less" scoped>
+@import "../../../styles/searchAndOperate.less";
     .addbtn-wrap {
         .ivu-btn {
             padding: 2px 8px;

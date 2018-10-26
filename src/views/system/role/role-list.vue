@@ -39,7 +39,6 @@
 					</template>
 					<template slot="operate" slot-scope="scope">
 						<Button type="primary" size="small" @click='addHandler(scope)'>新增</Button>
-						<Button type="warning" size="small" @click='distributeHandler(scope)'>授权</Button>
 						<Button type="warning" size="small" @click='editHandler(scope)'>编辑</Button>
 						<Button type="error" size="small" @click='deleteHandler(scope)' v-if='scope.row.pid'>删除</Button>
 						

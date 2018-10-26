@@ -39,14 +39,6 @@
 	            	@click="handleSave">
 	            	保存
 	            </Button>
-	        	<Button v-if='!isEdit'
-	            	type="info"
-	            	size="large" 
-	            	:loading="saveAndAddLoading" 
-	            	@click="handleSaveAndAdd">
-	            	保存并新增
-	            </Button>
-	            
 				<Button 
 	            	size="large" 
 	            	@click="handleCancle">
@@ -58,7 +50,37 @@
 </template>
 
 <script>
-    import { saveMessage, saveParams } from '@/api/system/configure-message';
+    import { saveMessage, saveParams,updateParams } from '@/api/system/configure-message';
+    // 更新参数
+    const updateParamsAction = (self) => {
+        return new Promise((resolve, reject) => {
+            if (self.saveAndAdd) {
+                self.saveAndAddLoading = true;
+            } else {
+                self.saveLoading = true;
+            }
+            updateParams(self.formValidate).then((res) => {
+                self.saveLoading = false;
+                self.saveAndAddLoading = false;
+                if (res.code == 201) {
+                    self.$Message.success('保存成功');
+                    if (self.saveAndAdd) {
+                        self.saveAndAdd = false;
+                        self.$refs['formValidate'].resetFields();
+                        self.$emit('handleBack', 1);
+                    } else {
+                        self.$emit('handleBack', 2);
+                    }
+                } else {
+                    self.$Message.error('保存失败');
+                }
+                resolve();
+            }).catch((err) => {
+                self.saveAndAdd = fase;
+                reject(err);
+            })
+        });
+    }
     //保存参数
     const saveParamsAction = (self) => {
         return new Promise((resolve, reject) => {
@@ -134,17 +156,23 @@
             handleSave() {
                 this.$refs["formValidate"].validate((valid) => {
                     if (valid) {
-                        saveParamsAction(this);
+                        if(this.formValidate.id){
+                            updateParamsAction(this);
+                        }else{
+                            saveParamsAction(this);
+                        }
+                        
                     } 
                 })
             },
-            handleSaveAndAdd() {
-                this.saveAndAdd = true;
-                this.handleSave();
-            }
+                // 清空表单
+            handleReset (name) {
+                this.$refs[name].resetFields();
+            },
         },
         mounted() {
             this.showModal = true;
+            this.handleReset("formValidate");
             this.formValidate  = this.data;
         }
     }
