@@ -287,7 +287,7 @@ const deletelockInfoAction = (self,id) => {
 const getPrincipalsAction = (self,personName) => {
     self.principalLoading = true;
     return new Promise((resolve, reject) => {
-        getPrincipals({keyWords:personName}).then(response => {
+        getPrincipals({keyWords:personName,organizationId:self.lockForm.organizationInfoId}).then(response => {
             if(response.code == 200 ){
                 self.principalList = response.content;
             }

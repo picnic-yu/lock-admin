@@ -114,32 +114,58 @@ export default {
                     align: 'center'   
                 },
                 {
-                    title: '用户名',
+                    title: '姓名',
                     key: 'personName' ,
                     width: 150,
                     align: 'center',
                 },
                 {
-                    title: '单位组别',
-                    key: 'organizationName',
-                    align: 'center'
-                },
-                {
-                    title: '是否启用',
-                    key: 'enabled',
+                    title: '手机号',
+                    key: 'mobileNumber' ,
                     width: 150,
                     align: 'center',
-                    render: (h, params) => {
-                        const row = params.row;
-                        const colorAndText = util.getColorAndTextByCode(row.enabled);
-                        return h('Tag', {
-                            props: {
-                                type: 'dot',
-                                color: colorAndText.color
-                            }
-                        }, colorAndText.text);
-                    }
-                }
+                },
+                {
+                    title: '用户角色',
+                    key: 'roleName' ,
+                    align: 'center',
+                },
+                {
+                    title: '工作单位',
+                    key: 'companyName' ,
+                    align: 'center',
+                },
+                {
+                    title: '绑定锁数',
+                    key: 'locks' ,
+                    align: 'center',
+                },
+                {
+                    title: '实名状态',
+                    key: 'displayStatus' ,
+                    align: 'center',
+                },
+                // {
+                //     title: '单位组别',
+                //     key: 'organizationName',
+                //     align: 'center'
+                // },
+                // {
+                //     title: '是否启用',
+                //     key: 'enabled',
+                //     width: 150,
+                //     align: 'center',
+                //     render: (h, params) => {
+                //         const row = params.row;
+                //         const colorAndText = util.getColorAndTextByCode(row.enabled);
+                //         return h('Tag', {
+                //             props: {
+                //                 type: 'dot',
+                //                 color: colorAndText.color
+                //             }
+                //         }, colorAndText.text);
+                //     }
+                // }
             ],                     //用户列表表头
             userList:[],                    //用户列表数据
             loadingUserList:false,

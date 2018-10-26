@@ -3,6 +3,7 @@
 <template>
     <div class="form-wrap">
         <Form ref="formItem" class= 'formvalidate-wrap' :rules="ruleValidate" :model="formItem" :label-width="140">
+            
             <Row>
                 <Col span="10" offset="1">
                     <FormItem label="登录名" prop="userName">
@@ -19,6 +20,13 @@
             </Row>
             <Row>
                 <Col span="10" offset="1">
+                    <FormItem label="工作单位" prop="companyName">
+                        <Input :maxlength=20 v-model="formItem.companyName">
+                        </Input>
+                    </FormItem>
+                </Col>
+            
+                <Col span="10" offset="1">
                     <FormItem label="所属组织" prop="principalOrganizationId">
                         <Select  v-model="formItem.principalOrganizationId">
                             <Option v-for="item in organizationData" :value="item.principalOrganizationId" :key="item.id">
@@ -28,36 +36,9 @@
                         
                     </FormItem>
                 </Col>
-                <Col span="10" offset="1">
-                    <FormItem label="用户角色" prop="roleId">
-                        <Select  v-model="formItem.roleId" v-if="!formItem.role.isAdmin">
-                            <Option v-for="item in roleList" :value="item.id" :key="item.id">
-                                {{ item.roleName }}
-                            </Option>
-                        </Select>
-                        <Input readonly :value="formItem.role.roleName" v-if="formItem.role.isAdmin">
-                        </Input>
-                    </FormItem>
-                </Col>
-                
-            </Row>
-
-            <Row v-if="!isEdit">
-                <Col span="10" offset="1">
-                    <FormItem label="用户密码" prop="userPassword">
-                        <Input type="password" :maxlength=30 v-model="formItem.userPassword" >
-                        </Input>
-                    </FormItem>
-                </Col>
-                <Col span="10" offset="1">
-                    <FormItem label="确认密码" prop="confirmPassword">
-                        <Input type="password" :maxlength=30 v-model="formItem.confirmPassword" :readonly="!passwordChanged">
-                        </Input>
-                    </FormItem>
-                </Col>
             </Row>
             <Row>
-                <Col span="10" offset="1">
+                 <Col span="10" offset="1">
                     <FormItem label="手机号码" prop="mobileNumber">
                         <Input :maxlength=20 v-model="formItem.mobileNumber">
                         </Input>
@@ -69,19 +50,19 @@
                         </Input>
                     </FormItem>
                 </Col>
-            </Row> 
-
-            <Row v-if="isEdit">
-                <Col span="10" offset="1">
-                    <FormItem label="用户密码">
-                        <div>
-                            <Button type="text" @click="editPasswordModal = true">修改密码</Button>
-                        </div>
-                    </FormItem> 
-                </Col>
             </Row>
-
             <Row>
+                 <Col span="10" offset="1">
+                    <FormItem label="用户角色" prop="roleId">
+                        <Select  v-model="formItem.roleId" v-if="!formItem.role.isAdmin">
+                            <Option v-for="item in roleList" :value="item.id" :key="item.id">
+                                {{ item.roleName }}
+                            </Option>
+                        </Select>
+                        <Input readonly :value="formItem.role.roleName" v-if="formItem.role.isAdmin">
+                        </Input>
+                    </FormItem>
+                </Col>
                 <Col span="10" offset="1">
 					<FormItem label="是否启用" prop="enabled">
 						<RadioGroup v-model="formItem.enabled">
@@ -95,6 +76,31 @@
 					</FormItem>
                 </Col>
             </Row>
+            <Row>
+                <Col span="10" offset="1" v-if="!isEdit"> 
+                    <FormItem label="用户密码" prop="userPassword">
+                        <Input type="password" :maxlength=30 v-model="formItem.userPassword" >
+                        </Input>
+                    </FormItem>
+                </Col>
+                <Col span="10" offset="1" v-if="!isEdit">
+                    <FormItem label="确认密码" prop="confirmPassword">
+                        <Input type="password" :maxlength=30 v-model="formItem.confirmPassword" :readonly="!passwordChanged">
+                        </Input>
+                    </FormItem>
+                </Col>
+            
+            </Row>
+            <Row>
+                <Col span="10" offset="1" v-if="isEdit">
+                    <FormItem label="用户密码">
+                        <div>
+                            <Button type="text" @click="editPasswordModal = true">修改密码</Button>
+                        </div>
+                    </FormItem> 
+                </Col>
+            </Row>
+            
             
             <div class="button-gropEl">
                 <Button type="primary" :loading='saveLoading' @click='handleSave()'>
@@ -288,6 +294,7 @@
                     emailAddress: '', //邮箱地址
                     roleId: '', //角色信息
                     organizationId:'', //组织信息
+                    companyName:''
                 },
                 passwordValidate: {
                     newPass: [
@@ -339,6 +346,13 @@
                             trigger: "change"
                         }
                     ],
+                    companyName:[
+                        {
+                            required: true,
+                            message: "请输入工作单位",
+                            trigger: "change"
+                        }
+                    ],
                     userPassword: [
                         { validator: validatePassword}
                     ],
@@ -362,7 +376,7 @@
                     ],
                     mobileNumber: [
                         {
-                            required: false,
+                            required: true,
                             validator: this.$check.phone
                         }
                     ]
