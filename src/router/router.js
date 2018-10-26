@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-01-29 10:24:39 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-10-25 10:09:17
+ * @Last Modified time: 2018-10-26 14:31:12
  */
 /**
  * 路由配置
@@ -322,7 +322,17 @@ export const appRouter = [
 				component: resolve => {
 					require(['@/views/system/configure-message/message-list.vue'], resolve);
 				}
-			},         
+            },  
+            {
+				path: 'message-template',
+				title: '短信通知',
+				name: 'message-template',
+				icon: 'email',
+				component: resolve => {
+					require(['@/views/system/message-template/list.vue'], resolve);
+				}
+            },   
+            
         ]
     }
 ];

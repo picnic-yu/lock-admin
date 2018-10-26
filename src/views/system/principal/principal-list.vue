@@ -7,10 +7,10 @@
         </section>
         <section class='list-wrap' v-show='!diaplayForm'>
             <Row type="flex" justify="center" align="top" :gutter='20' class="code-row-bg">
-                <Col span="5" >
+                <Col span="6" >
                     <organization-tree @handleRefresh='handleRefresh'></organization-tree>
                 </Col>
-                <Col span="19" >
+                <Col span="18" >
                     <principal-table :flag='flag' @handleEditOrganization='handleEditOrganization' @handleAddOrganization='handleAddOrganization'></principal-table>
                 </Col>
             </Row>

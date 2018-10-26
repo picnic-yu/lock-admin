@@ -14,14 +14,27 @@
                         </Select>
                     </FormItem>
                     
-                    <FormItem label="组织名称" prop="organizationName" >
-                        <Input v-model="formValidate.organizationName" :maxlength=30 placeholder="请输入组织名称"></Input>
+                    <FormItem label="单位组别名" prop="organizationName" >
+                        <Input v-model="formValidate.organizationName" :maxlength=30 placeholder="请输入单位组别名"></Input>
                     </FormItem>
-                    
-                    <FormItem label="说明" prop="organizationDescription">
-                            <Input v-model="formValidate.organizationDescription" placeholder="请输入说明"></Input>
+                    <FormItem label="组管理员" prop="userName">
+                            <Input v-model="formValidate.userName" placeholder="请输入组管理员"></Input>
                     </FormItem>
-
+                    <FormItem label="管理员密码" prop="userPassword">
+                            <Input v-model="formValidate.userPassword" placeholder="请输入管理员密码"></Input>
+                    </FormItem>
+                    <FormItem label="选择权限">
+                        <Select 
+                            multiple 
+                            v-model="permissionArr"
+                            @on-change='handleChangePermission' 
+                            placeholder="可多选" >
+                            <Option 
+                                v-for="(item,index) in permissionList" 
+                                :value="item.id" 
+                                :key="item.id+'-'+ index">{{ item.permissionName }}</Option>
+                        </Select>
+                    </FormItem>
                    
                 </div>
             </Form>
@@ -51,11 +64,27 @@
 
 <script type="text/ecmascript-6">
 import { getOrganizations, addOrganization, updateOrganization, getOrganizationById } from '@/api/organization';
+import { getPermissionsList } from '@/api/system/permissionInfo';
 import VueImgInputer from 'vue-img-inputer';
 import { upload } from '@/api/upload'
 import lookUpdata from '@/libs/lookup/lookupInfo.js';
 import {transformData} from '@/libs/utils/lookupUtils.js';
-
+/**
+* 函数功能简述 获取组织信息列表
+*@param    {object}  self     vue this 
+*/
+const getPermissionsListAction = (self) => {
+    return new Promise((resolve, reject) => {
+        getPermissionsList().then(response => {
+            if(response.code == 200){
+                self.permissionList = response.content;
+            }
+            resolve();
+        }).catch(error => {
+            reject(error)
+        })
+    })
+};
 
 /**
 * 函数功能简述 获取组织信息列表
@@ -174,18 +203,27 @@ export default {
                 pid:'',
                 organizationName:'',
                 organizationDescription:'',
+                userName:'',
+                userPassword:'',
                 image:{},
                 organizationLogo: '',//图片logo
             },
+            permissionList:[],//权限列表
+            permissionArr:[],
             organizations:[],
             ruleValidate:{
                 organizationName: [
-                    { required: true, message: '请输入组织名称', trigger: 'change' }
+                    { required: true, message: '请输入单位组别名', trigger: 'change' }
                 ],
                 pid: [
                     { required: true, message: '请输入上级组织', trigger: 'change' }
                 ],
-                
+                userPassword:[
+                    { required: true, message: '请输入管理员密码', trigger: 'change' }
+                ],
+                userName:[
+                    { required: true, message: '请输入组管理员', trigger: 'change' }
+                ]
                 
             }
         }
@@ -228,10 +266,25 @@ export default {
                 let organ = await getOrganizationByIdAction(this, val);
                 
             }
+        },
+        handleChangePermission(val){
+            console.log(val)
+            this.formValidate.permissionIds = val.join(',');
         }
     },
 
-    mounted() {
+    async mounted() {
+        getPermissionsListAction(this);
+        if(this.organizationData.id){
+            
+            let permissionArr = await getOrganizationByIdAction(this,this.organizationData.id);
+            let arr = [];
+            permissionArr.forEach((item) => {
+                arr.push(item.id);
+            });
+            this.permissionArr = arr;
+        }
+       
         this.init();
         if (this.isEdit) {
             this.formValidate = this.organizationData;

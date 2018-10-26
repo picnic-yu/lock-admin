@@ -44,3 +44,12 @@ export function getPermissionsTree(id) {
 		method: 'get'
 	})
 }
+
+// /permissions/list
+// 权限列表
+export function getPermissionsList(id) {
+	return request({
+		url: `${BASE_URL}/permissions/list`,
+		method: 'get'
+	})
+}
