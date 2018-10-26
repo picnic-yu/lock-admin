@@ -66,3 +66,29 @@ export function requestMessageList(obj) {
 	})
 }
 
+// 获取模板列表
+export function getMessagesTemplate(obj) {
+	return request({
+        url: `${BASE_URL}/messages/template/list`,
+		method: `post`,
+		data: obj
+	})
+}
+
+
+// 启用/禁用模板
+export function deleteMessagesTemplate(id) {
+	return request({
+        url: `${BASE_URL}/messages/templates/${id}`,
+		method: `delete`
+	})
+}
+// /messages/templates/
+// 编辑模板
+export function updateMessagesTemplate(obj) {
+	return request({
+        url: `${BASE_URL}/messages/templates/`,
+		method: `put`,
+		data:obj
+	})
+}
