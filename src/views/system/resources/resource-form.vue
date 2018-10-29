@@ -34,7 +34,7 @@
                     </Col>
                    
                     <Col span="10" offset="1">
-                        <FormItem label="资源地址" prop="ip">
+                        <FormItem label="资源地址" prop="path">
                             <Input :maxlength=80 v-model="formValidate.path" placeholder="请输入资源地址"></Input>
                         </FormItem>
                     </Col>
@@ -48,7 +48,7 @@
                         </FormItem>
                     </Col>
 					<Col span="10" offset="1">
-						<FormItem label="系统平台" prop="ip">
+						<FormItem label="系统平台" prop="resourcePlatform">
 							<Select v-model="formValidate.resourcePlatform"  placeholder="请输入系统平台">
 								<Option v-for="item in resourcePlatformList" :value="item.code" :key="item.value">
 									{{ item.value }}
@@ -59,6 +59,11 @@
                     
                 </Row>
                 <Row>
+					<Col span="10" offset="1" v-if='formValidate.resourcePlatform == "APP"'>
+                        <FormItem label="url" prop="url">
+                            <Input :maxlength=80 v-model="formValidate.url" placeholder="请输入url"></Input>
+                        </FormItem>
+                    </Col>
 					<Col span="10" offset="1">
                         <FormItem label="是否启用" prop="status" >
                             <RadioGroup v-model="formValidate.status">
@@ -187,7 +192,8 @@
 					status: 1,//是否启用
 					icon: '',//资源图标
 					resourceType: 0,//资源类型
-					resourcePlatform:'SYS'
+					resourcePlatform:'SYS',
+					url:''//app url
 				},
 				roleNameError:false,//角色名称错误语句显示
 				isBack:false,
