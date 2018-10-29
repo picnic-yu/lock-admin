@@ -206,12 +206,12 @@ export default {
                 },
                 {
                     title: '起始时间',
-                    key: 'startTime',
+                    key: 'displayST',
                     align: 'center'
                 },
                 {
                     title: '截止时间',
-                    key: 'endTime',
+                    key: 'displayET',
                     align: 'center'
                 }
             ],
