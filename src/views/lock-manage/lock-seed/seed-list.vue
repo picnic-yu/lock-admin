@@ -302,11 +302,6 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '密钥',
-                    key: 'lockPassword',
-                    align: 'center'
-                },
-                {
                     title: '版本',
                     key: 'version',
                     align: 'center'
