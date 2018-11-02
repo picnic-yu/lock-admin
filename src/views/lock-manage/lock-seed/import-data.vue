@@ -131,14 +131,16 @@
                 this.$refs[name].resetFields();
             },
 			uploadData() {
-
-				if(this.file !== null){
-					this.loadingStatus = true;
-					this.resolve();
-				}else{
-					this.$Message.warning('请选择导入文件');
-				}
-
+				this.$refs['lockForm'].validate((valid) => {
+                    if (valid) {
+                        if(this.file !== null){
+							this.loadingStatus = true;
+							this.resolve();
+						}else{
+							this.$Message.warning('请选择导入文件');
+						}
+                    } 
+                })
 			},
 			uploadSuccess(response, file, fileList) {
 				this.loadingStatus = false;
