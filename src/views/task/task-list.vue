@@ -43,7 +43,6 @@
                     <div class="search-wrap">
                         <searchForm 
                             class='search-component' 
-                            :searchdata='searchdata'
                             :removeInputFlag='removeInputFlag'
                             :placeholderValue='placeholderValue'
                             @query='query' >
@@ -631,7 +630,7 @@ export default {
         // 查询列表
         query(data) {
             this.queryParam.keyWords = data.keyWords;
-            this.queryParam.status = data.selectData[0].code;
+            // this.queryParam.status = data.selectData[0].code;
             this.getListData();
         },   
         // 刷新页面

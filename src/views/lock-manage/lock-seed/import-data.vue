@@ -4,15 +4,15 @@
             <span>{{modeltitle}}</span>
         </p>
         <div>
-			<span style='width:125px;display: inline-block;vertical-align: middle;'>请选择导入EXCEL文件</span>
+			<span style='width:125px;display: inline-block;vertical-align: middle;'>请选择导入TXT文件</span>
 			<Upload style='display:inline-block;vertical-align: middle;width:calc(100% - 150px);margin-left:20px;' 
 				:headers = 'lockForm'
 				:before-upload ="handleUpload"
 				:on-success ='uploadSuccess'
-				accept=".csv, .xls,.xlsx"
+				accept=".txt"
 				:on-error = 'uploadError'
 				:action="actionUrl">
-				<Button type="ghost">{{ file?file.name:'请选择导入文件' }}</Button><span style='color:red;display:inline-block;padding-left:15px;'>提示,只能选择xls及xlsx文件</span>
+				<Button type="ghost">{{ file?file.name:'请选择导入文件' }}</Button><span style='color:red;display:inline-block;padding-left:15px;'>提示,只能选择txt文件</span>
 			</Upload>
             <Form  class="control-group" style='margin-top:15px;' ref="lockForm"  :rules="ruleValidate" :model="lockForm" :label-width="90">
                 
