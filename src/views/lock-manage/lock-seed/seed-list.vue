@@ -117,7 +117,7 @@
 	            	size="large" 
 	            	:loading="distributeLoading" 
 	            	@click="handleSubmitDistribute">
-	            	保存
+	            	确定
 	            </Button>
 	        	
 	            
@@ -318,7 +318,7 @@ export default {
                 },
                 {
                     title: '分发时间',
-                    key: 'distributionTime',
+                    key: 'displayDBT',
                     align: 'center'
                 },
                 {
