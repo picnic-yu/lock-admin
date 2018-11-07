@@ -9,8 +9,8 @@
 
         <header>
             <div class="header-inner">
-                <a href="" class="logo-img"></a>
-                <span>天津联通“沃企通”智慧租赁管理平台</span>
+                <!-- <a href="" class="logo-img"></a> -->
+                <!-- <span>天津联通“沃企通”智慧租赁管理平台</span> -->
             </div>
         </header>
         <!-- <div class="login-logo">
@@ -24,26 +24,26 @@
             <Carousel  autoplay  :autoplay-speed='autoplaySpeed' class='banner'   loop>
                 <CarouselItem>
                     <div class="demo-carousel banner-1">
-                       <div class='banner-text'>
+                       <!-- <div class='banner-text'>
                             <h3>“沃企通”智慧租赁管理平台将以最新的技术
 	和最完善的应用协助我们的客户
 	快速进入资产远端监控的时代
                             </h3>
                             <br>
-                        </div> 
+                        </div>  -->
                         <img src="../../images/leasing-banner-1.jpg" alt="">
                     </div>
                 </CarouselItem>
                 <CarouselItem>
                     
                     <div class="demo-carousel banner-2">
-                        <div class='banner-text'>
+                        <!-- <div class='banner-text'>
                             <h3 style = 'white-space: pre;'>
 创造一个
     更加便捷有效的管理环境！
                             </h3>
                             <br>
-                        </div> 
+                        </div>  -->
                         <img src="../../images/leasing-banner-2.jpg" alt="">
                     </div>
                 </CarouselItem>

@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-01-29 10:24:39 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-10-26 14:31:12
+ * @Last Modified time: 2018-11-07 17:38:39
  */
 /**
  * 路由配置
@@ -15,7 +15,7 @@ export const loginRouter = {
     path: '/login',
     name: 'login',
     meta: {
-        title: '租赁管家'
+        title: 'SmartLock'
     },
     // component: resolve => { require(['@/views/login/index.vue'], resolve); }
     // component: resolve => { require(['@/views/login/indexFirst.vue'], resolve); }

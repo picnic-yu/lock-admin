@@ -8,13 +8,13 @@
 
     <header>
       <a href="" class="logo-img"></a>
-      <span>租赁管家</span>
+      <!-- <span>租赁管家</span> -->
     </header>
     <div class="login-logo">
       <a href="" class="">
         <img src="../../images/logo.png" alt="">
       </a>
-      <br> 为您提供最合适的产品和解决方案，全面提升租赁行业的管理能力！
+      <!-- <br> 为您提供最合适的产品和解决方案，全面提升租赁行业的管理能力！ -->
     </div>
 
     <article>

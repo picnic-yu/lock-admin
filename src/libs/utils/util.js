@@ -12,7 +12,7 @@ let util = {
 
 };
 util.title = function (title) {
-    title = title || 'cloudkeeper | 租赁管家';
+    title = title || 'SmartLock';
     window.document.title = title;
 };
 
