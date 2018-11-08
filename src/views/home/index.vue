@@ -1,6 +1,7 @@
 <template>
  <section class="page">
-home
+     <iframe src="https://simonzhangiter.github.io/DataVisualization/#/dashboard" style='width:100%;height:700px;' frameborder="0" scrolling="auto"></iframe>
+
  </section>
 </template>
 
