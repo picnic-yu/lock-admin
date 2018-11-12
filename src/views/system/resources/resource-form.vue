@@ -192,7 +192,7 @@
 					status: 1,//是否启用
 					icon: '',//资源图标
 					resourceType: 0,//资源类型
-					resourcePlatform:'SYS',
+					resourcePlatform:'',
 					url:''//app url
 				},
 				roleNameError:false,//角色名称错误语句显示
@@ -202,6 +202,9 @@
                 ruleValidate: {
 					name: [
 						{ required: true, message: '请输入资源名称', trigger: 'change' }
+					],
+					resourcePlatform: [
+						{ required: true, message: '请选择系统平台', trigger: 'change' }
 					]
 				},
 				resourcePlatformList:[
@@ -228,8 +231,11 @@
 		},
 		methods: {
 			init() {
+				console.log(this.isEdit)
 				if(this.isEdit) {
-					this.formValidate = this.formTreeData;
+					Object.assign(this.formValidate, this.formTreeData);
+					this.formValidate.resourcePlatform = this.formTreeData.resourcePlatform;
+					console.log(this.formValidate)
 				}else{
                     this.formValidate.pid = this.formTreeData.id;
                 }
