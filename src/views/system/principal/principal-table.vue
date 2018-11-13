@@ -6,11 +6,9 @@
                     <button-group class='operate' 
                     :refreshStatus='false'
                     @addHandler='addHandler'
-                    @deleteHandler="deleteHandler"
-                    @editHandler='editHandler'
                     :addStatus="!!$store.state.app.organizationData.id"
-                    :edit='isSelect' 
-                    :deleteStatus='isDelete'
+                     
+                    
                     ></button-group>
                 </div>
                 <div class="search-wrap">
@@ -145,6 +143,30 @@ export default {
                     key: 'displayStatus' ,
                     align: 'center',
                 },
+                {
+                    title: '操作',
+                    key: 'action',
+                    width: 150,
+                    align: 'center',
+                    render: (h, params) => {
+                        return h('div', [
+                            h('Button', {
+                                props: {
+                                    type: 'primary',
+                                    size: 'small'
+                                },
+                                style: {
+                                    marginRight: '5px'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.handleEdit(params.row)
+                                    }
+                                }
+                            }, '编辑'),
+                        ]);
+                    }
+                }
                 // {
                 //     title: '单位组别',
                 //     key: 'organizationName',
@@ -198,9 +220,9 @@ export default {
             this.queryParam.keyWords = data.keyWords;
             this.getListData();
         },
-        editHandler(){
+        handleEdit(data){
             this.isEdit = true;
-            this.$emit('handleEditOrganization',this.editData);
+            this.$emit('handleEditOrganization',data);
         },
         addHandler(){
             if(!this.$store.state.app.organizationData.id){
@@ -218,7 +240,7 @@ export default {
         },
         selectItem(data){
            
-            this.isSelect = true;
+            // this.isSelect = true;
             this.editData = data;
         
         },
