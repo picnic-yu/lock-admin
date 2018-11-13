@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-01-29 10:24:39 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-11-07 17:38:39
+ * @Last Modified time: 2018-11-13 09:26:24
  */
 /**
  * 路由配置
@@ -332,7 +332,15 @@ export const appRouter = [
 					require(['@/views/system/message-template/list.vue'], resolve);
 				}
             },   
-            
+            {
+				path: 'feedback',
+				title: '短信通知',
+				name: 'feedback',
+				icon: 'email',
+				component: resolve => {
+					require(['@/views/system/feedback/form.vue'], resolve);
+				}
+            }, 
         ]
     }
 ];
