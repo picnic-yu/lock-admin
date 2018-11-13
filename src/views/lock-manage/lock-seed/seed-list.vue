@@ -185,7 +185,7 @@ const sendSeedAction = (self) => {
 
 const deletelockSeedAction = (self,id) => {
     deletelockSeed(id).then(res=>{
-        if(res.code == 201){
+        if(res.code == 204){
             self.$Message.success('删除成功');
             getList(self,self.queryParam)
         }else{
@@ -366,8 +366,7 @@ export default {
             queryParam: {
                 "pageSize": 10,
                 "keyWords": '',
-                "pageNumber": 0,
-                "communicationPlan":'node-1'
+                "pageNumber": 0
             },
             addStatus:true,         //新增按钮的状态
             removeInputFlag:0,
@@ -466,7 +465,7 @@ export default {
         },
         // 查询列表
         query(data) {
-            this.queryParam.sensorNumber = data.keyWords;
+            this.queryParam.keyWords = data.keyWords;
             
             this.queryParam.distributionStatus = data.selectData[0].code;
             this.getListData();

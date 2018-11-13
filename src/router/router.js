@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-01-29 10:24:39 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-11-13 09:26:24
+ * @Last Modified time: 2018-11-13 14:15:13
  */
 /**
  * 路由配置
@@ -147,7 +147,7 @@ export const appRouter = [
         children: [
             {
                 path: 'certification',
-                title: '任务管理',
+                title: '实名认证管理',
                 name: 'certification',
                 icon: 'ios-paw',
                 component: resolve => {
