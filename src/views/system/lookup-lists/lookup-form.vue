@@ -28,7 +28,7 @@
                         <div class="list" v-show='showList'>
                             <div class='table-wrap'>
                                 <!-- <div class="tb-header"><Icon type="pricetags"></Icon>字典项列表</div> -->
-                                <i-table stripe highlight-row 
+                                <i-table stripe  
                                     :columns="columns1" 
                                     :data="listData" 
                                     @on-row-click='selectItem'>  

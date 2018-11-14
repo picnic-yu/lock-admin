@@ -21,7 +21,7 @@
             
             <div class="list" >
                 <div class='table-wrap'>
-                    <i-table stripe highlight-row 
+                    <i-table stripe  
                         :columns="columns" 
                         :data="userList" 
                         @on-row-click='selectItem'> 

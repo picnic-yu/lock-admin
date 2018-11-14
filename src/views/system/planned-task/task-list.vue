@@ -30,7 +30,7 @@
         <!-- 任务列表 -->
         <div class="list" v-show='showList'>
 			<div class='table-wrap'>
-				<i-table stripe highlight-row 
+				<i-table stripe  
 					:columns="columns1" 
 					:data="listData" 
 					@on-row-click='selectItem'> 

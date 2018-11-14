@@ -62,7 +62,7 @@
                         </div>
                         <!-- 参数列表 -->
                         <div class="list" >
-                            <i-table stripe highlight-row 
+                            <i-table stripe  
                                 :columns="columns1" 
                                 :data="listData" 
                                 @on-row-click='selectItem'
