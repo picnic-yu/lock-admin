@@ -66,3 +66,11 @@ export function checkUserName(obj) {
         data: obj
     })
 }
+
+// 删除用户
+export function deletePrincipals(id) {
+    return request({
+        url: `${BASE_URL}/principals/${id}`,
+        method: 'delete',
+    })
+}

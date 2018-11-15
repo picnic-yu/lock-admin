@@ -45,7 +45,7 @@
 <script type="text/ecmascript-6">
 import buttonGroup from '@/views/components/button-group/index.vue';
 import search from '../../components/search-form/index.vue';
-import { getPrincipalList } from '@/api/principals';
+import { getPrincipalList,deletePrincipals } from '@/api/principals';
 import util from '@/libs/utils/util';
 
 /**
@@ -76,6 +76,25 @@ const getPrincipalListAction = (self) =>  {
         })
     })
 };
+// 删除请求
+const deletePrincipalsAction = (self,id) => {
+	return new Promise((resolve, reject) => {
+		deletePrincipals(id).then(response => {
+			if(response.code == 204){
+				self.$Message.success('删除成功');
+				self.getListData();
+			}else{
+				self.$Message.error('删除失败');
+			}
+			resolve();
+			
+		}).catch(error => {
+			reject(error);
+			self.$Message.error('删除失败');
+		})
+	})
+};
+deletePrincipals
 export default {
     components: {
         buttonGroup,
@@ -164,6 +183,17 @@ export default {
                                     }
                                 }
                             }, '编辑'),
+                            h('Button', {
+                                props: {
+                                    type: 'error',
+                                    size: 'small'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.handleDelete(params.row)
+                                    }
+                                }
+                            }, '删除')
                         ]);
                     }
                 }
@@ -231,9 +261,7 @@ export default {
                 this.$emit('handleAddOrganization');
             }
         },
-        deleteHandler(){
-
-        },
+       
         pageChange(data) { //分页查询
             this.queryParam.pageNumber = data -1;
             this.getListData();
@@ -249,6 +277,22 @@ export default {
             this.isEdit = false;
             this.isSelect = false;
             getPrincipalListAction(this);
+        },
+        handleDelete(row){
+            this.$Modal.confirm({
+                title: '提示',
+                content: '确定要删除吗',
+                okText: '确定',
+                cancelText: '取消',
+                onOk: () => {
+                    deletePrincipalsAction(this,row.id);
+                },
+                onCancel: () => {
+                    
+                    
+                }
+            })
+            
         }
     },
 
