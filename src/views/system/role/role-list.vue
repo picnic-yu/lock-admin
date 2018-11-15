@@ -40,7 +40,7 @@
 					<template slot="operate" slot-scope="scope">
 						<Button type="primary" size="small" @click='addHandler(scope)'>新增</Button>
 						<Button type="warning" size="small" @click='editHandler(scope)'>编辑</Button>
-						<Button type="error" size="small" @click='deleteHandler(scope)' v-if='scope.row.pid'>删除</Button>
+						<Button type="error" size="small" @click='deleteHandler(scope)' v-if='scope.row.pid && !scope.row.status'>删除</Button>
 						
 					</template>
 				</zk-table>
@@ -115,7 +115,7 @@ export default {
 				showRowHover: true,
 				showIndex: false,
 				treeType: true,
-				isFold: true,
+				isFold: false,
 				expandType: false,
 				selectionType: false,
 			},
@@ -136,7 +136,7 @@ export default {
 					prop: 'roleDescription',
 				},
 				{
-					label: '是否启用',
+					label: '是否默认角色',
                     prop: 'resourceStatus',
                     align: 'center',
                     headerAlign: 'center'
