@@ -538,7 +538,7 @@ export default {
        
         // 查询列表
         query(data) {
-            this.queryParam.sensorNumber = data.keyWords;
+            this.queryParam.keyWords = data.keyWords;
             // this.queryParam.ipAddress = data.inputList[0].value;
             // this.queryParam.iccid = data.inputList[1].value;
             // this.queryParam.imei = data.inputList[2].value;
