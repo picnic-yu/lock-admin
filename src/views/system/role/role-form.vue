@@ -58,6 +58,18 @@
 						</CheckboxGroup>
 					</FormItem>
 				</Col>
+				<Col span="10" offset="1">
+					<FormItem label="是否管理员" prop="isAdmin" >  
+						<RadioGroup v-model="formValidate.isAdmin">
+							<Radio 
+								v-for="item in statusData" 
+								:key='item.name' 
+								:label="item.status">
+								{{item.name}}
+							</Radio>
+						</RadioGroup>
+					</FormItem>
+				</Col>
 			</Row>
 			<div class="button-gropEl">
 				<ButtonGroup>
@@ -164,6 +176,7 @@
 					roleName:'',//角色名称
 					roleDescription: '',//角色描述
 					internal: 1,//是否内部角色
+					isAdmin: 1,//是否管理员
 					status: 1//是否启用
 				},
 				isBack:false,
