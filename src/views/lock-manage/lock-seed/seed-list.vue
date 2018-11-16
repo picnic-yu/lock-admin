@@ -173,6 +173,10 @@ const sendSeedAction = (self) => {
             self.$Message.success('分发成功');
             self.distributeModal = false;
             getList(self,self.queryParam)
+        }else if(res.code == 404){
+            self.$Message.error('请选择种子');
+        }else if(res.code == 401){
+            self.$Message.error('请选择有效用户单位');
         }else{
             self.$Message.error('分发失败');
         }
