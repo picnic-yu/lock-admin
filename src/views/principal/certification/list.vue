@@ -269,6 +269,8 @@ const editCertificationAction=function(self,flag){
             self.$Message.success('保存成功');
             self.formModal = false;
             self.getListData();
+        }else if(res.code == 101){
+            self.$Message.error('操作失败,没有审核权限 ');
         }else{
             self.$Message.error('保存失败');
         }

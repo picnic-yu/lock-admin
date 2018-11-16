@@ -311,7 +311,7 @@ const getTaskManageCountAction=function(self){
 const getLockinfoListAction = (self,keyWords) => {
     self.lockIdLoading = true;
     return new Promise((resolve, reject) => {
-        getLockinfoList({keyWords:keyWords, bindingStatus:0}).then(response => {
+        getLockinfoList({keyWords:keyWords, bindingStatus:1}).then(response => {
             if(response.code == 200 ){
                 self.lockIdList = response.content;
             }

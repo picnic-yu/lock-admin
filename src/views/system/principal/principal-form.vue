@@ -180,6 +180,8 @@
                     self.formItem.id = response.content.id;
                     self.$Message.success('保存成功');
                     self.$emit('handleBackList','1');                    
+                }else if(response.code == 101){
+                    self.$Message.error('该手机号码已经被注册');
                 } else {
                     self.$Message.error('保存失败');
                 }
@@ -201,6 +203,8 @@
                     self.$Message.success('保存成功');
                     self.$emit('handleBackList','1');
                     self.isSelect = false;
+                }else if(response.code == 101){
+                    self.$Message.error('该手机号码已经被注册');
                 } else {
                     self.$Message.error('保存失败');
                 }

@@ -276,6 +276,8 @@ const deletelockInfoAction = (self,id) => {
         if(res.code == 201){
             self.$Message.success('删除成功');
             getList(self,self.queryParam)
+        }else if(res.code == 101){
+            self.$Message.error('删除失败,请先删除顺序开锁设置');
         }else{
             self.$Message.error('删除失败');
         }
@@ -287,7 +289,7 @@ const deletelockInfoAction = (self,id) => {
 const getPrincipalsAction = (self,personName) => {
     self.principalLoading = true;
     return new Promise((resolve, reject) => {
-        getPrincipals({keyWords:personName,organizationId:self.lockForm.organizationInfoId}).then(response => {
+        getPrincipals({keyWords:personName,organizationId:self.lockForm.organizationInfoId,internal:1}).then(response => {
             if(response.code == 200 ){
                 self.principalList = response.content;
             }
@@ -308,9 +310,12 @@ const bindlockStallAction=function(self){
         if(res.code == 201){
             self.$Message.success('绑定成功');
             getBindingStaffAction(self, self.lockForm.id);
+        }else if(res.code == 401){
+            self.$Message.error('绑定失败,该用户没有绑定权限');
+        }else if(res.code == 403){
+            self.$Message.error('绑定失败,该用户重复绑定');
         }else{
             self.$Message.error('绑定失败');
-            
         }
     }).catch((e)=>{
         self.$Message.error('绑定失败');
@@ -448,9 +453,6 @@ export default {
                 ],
                 locationCode: [
                     {required: true, message: '请输入位置编号', trigger: 'change'}
-                ],
-                dmCode: [
-                    {required: true, message: '请输入门磁编码', trigger: 'change'}
                 ],
                 organizationInfoId: [
                     {required: true, message: '请输入所属单位', trigger: 'change'}
