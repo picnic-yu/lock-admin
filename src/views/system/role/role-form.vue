@@ -32,18 +32,7 @@
 						<Input v-model="formValidate.roleDescription" :maxlength=50 type="textarea" :autosize="{minRows: 2,maxRows: 3}" placeholder="请输入角色描述" > </Input>
 					</FormItem>
 				</Col>
-				<Col span="10" offset="1">
-					<FormItem label="是否内部角色" prop="internal" >
-						<RadioGroup v-model="formValidate.internal">
-							<Radio 
-								v-for="item in statusData" 
-								:key='item.name' 
-								:label="item.status">
-								{{item.name}}
-							</Radio>
-						</RadioGroup>
-					</FormItem>
-				</Col>
+				
 			</Row>
 			<Row>
 				<Col span="10" offset="1">
@@ -58,18 +47,7 @@
 						</CheckboxGroup>
 					</FormItem>
 				</Col>
-				<Col span="10" offset="1">
-					<FormItem label="是否管理员" prop="isAdmin" >  
-						<RadioGroup v-model="formValidate.isAdmin">
-							<Radio 
-								v-for="item in statusData" 
-								:key='item.name' 
-								:label="item.status">
-								{{item.name}}
-							</Radio>
-						</RadioGroup>
-					</FormItem>
-				</Col>
+				
 			</Row>
 			<div class="button-gropEl">
 				<ButtonGroup>
@@ -175,8 +153,6 @@
 					pid:'',//父节点ID
 					roleName:'',//角色名称
 					roleDescription: '',//角色描述
-					internal: 1,//是否内部角色
-					isAdmin: 1,//是否管理员
 					status: 1//是否启用
 				},
 				isBack:false,
