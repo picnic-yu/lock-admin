@@ -38,7 +38,7 @@
 						}}
 					</template>
 					<template slot="operate" slot-scope="scope">
-						<Button type="primary" size="small" @click='addHandler(scope)'>新增</Button>
+						<Button type="primary" size="small" @click='addHandler(scope)' v-if='scope.row.pid'>新增</Button>
 						<Button type="warning" size="small" @click='editHandler(scope)'>编辑</Button>
 						<Button type="error" size="small" @click='deleteHandler(scope)' v-if='scope.row.pid && !scope.row.status'>删除</Button>
 						
@@ -135,12 +135,12 @@ export default {
 					label: '角色描述',
 					prop: 'roleDescription',
 				},
-				{
-					label: '是否默认角色',
-                    prop: 'resourceStatus',
-                    align: 'center',
-                    headerAlign: 'center'
-				},
+				// {
+				// 	label: '是否默认角色',
+                //     prop: 'resourceStatus',
+                //     align: 'center',
+                //     headerAlign: 'center'
+				// },
 				{
 					label: '操作',
 					prop: 'operate',
