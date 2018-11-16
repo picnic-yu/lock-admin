@@ -87,7 +87,7 @@
                                 >
                                     <Option v-for="item in principalList"
                                         placeholder="请选择执行人  " 
-                                        :value="item.id" :key="item.id">{{ item.personName }}</Option>
+                                        :value="item.id" :key="item.id">{{ item.personNameMobile }}</Option>
                                 </Select>
                                 
                             
