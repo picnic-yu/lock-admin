@@ -14,26 +14,12 @@
 					</FormItem>
 				</Col>
 				<Col span="10" offset="1">
-					<FormItem label="是否默认角色" prop="status" >
-						<RadioGroup v-model="formValidate.status">
-							<Radio 
-								v-for="item in statusData" 
-								:key='item.name' 
-								:label="item.status">
-								{{item.name}}
-							</Radio>
-						</RadioGroup>
-					</FormItem>
-				</Col>
-			</Row>
-			<Row>
-				<Col span="10" offset="1">
 					<FormItem label="角色描述" prop="roleDescription">
 						<Input v-model="formValidate.roleDescription" :maxlength=50 type="textarea" :autosize="{minRows: 2,maxRows: 3}" placeholder="请输入角色描述" > </Input>
 					</FormItem>
 				</Col>
-				
 			</Row>
+			
 			<Row>
 				<Col span="10" offset="1">
 					<FormItem label="勾选权限">
@@ -153,7 +139,6 @@
 					pid:'',//父节点ID
 					roleName:'',//角色名称
 					roleDescription: '',//角色描述
-					status: 1//是否启用
 				},
 				isBack:false,
 				statusData: statusArr,
