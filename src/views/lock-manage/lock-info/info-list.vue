@@ -448,18 +448,18 @@ export default {
                 
             },//编辑锁信息表单
             ruleValidate:{
-                locationAddress: [
-                    {required: true, message: '请输入位置', trigger: 'change'}
-                ],
-                locationCode: [
-                    {required: true, message: '请输入位置编号', trigger: 'change'}
-                ],
+                // locationAddress: [
+                //     {required: true, message: '请输入位置', trigger: 'change'}
+                // ],
+                // locationCode: [
+                //     {required: true, message: '请输入位置编号', trigger: 'change'}
+                // ],
                 organizationInfoId: [
                     {required: true, message: '请输入所属单位', trigger: 'change'}
                 ],
-                facilityName:[
-                    {required: true, message: '请输入设施名称', trigger: 'change'}
-                ]
+                // facilityName:[
+                //     {required: true, message: '请输入设施名称', trigger: 'change'}
+                // ]
             },//规则校验
             editModalStatus:false,//编辑弹出层
             organizationList:[],
@@ -554,8 +554,7 @@ export default {
             this.removeInputFlag += 1;
         },
         handleEdit(index){
-            console.log(this.organizationList,'organizationList')
-            console.log(this.lockForm,'lockForm');
+            
             this.lockForm.id = this.listData[index].id;
             this.bindForm.lockInfoId = this.listData[index].id;
             this.handleReset('lockForm');
