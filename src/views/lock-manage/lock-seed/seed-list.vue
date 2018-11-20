@@ -71,7 +71,7 @@
                         </Select>
                     </FormItem>
                     <FormItem label="所属单位" prop="organizationInfoId" >
-                        <Select v-model="lockForm.organizationInfoId">
+                        <Select v-model="lockForm.organizationInfoId" :disabled="true">
                             <Option v-for="item in organizationList" :value="item.id" :key="item.organizationName">{{ item.organizationName }}</Option>
                         </Select>
                     </FormItem>
