@@ -170,6 +170,8 @@ const updateLockinfoAction = (self) => {
             self.$Message.success('保存成功');
             self.editModalStatus = false;
             getList(self,self.queryParam);
+        }else if(res.code == 201){
+            self.$Message.error('请先删除顺序开锁设置和任务');
         }else{
             self.$Message.error('保存失败');
             

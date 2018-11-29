@@ -27,9 +27,9 @@
                 </Col>
             
                 <Col span="10" offset="1">
-                    <FormItem label="所属组织" prop="principalOrganizationId">
-                        <Select  v-model="formItem.principalOrganizationId">
-                            <Option v-for="item in organizationData" :value="item.principalOrganizationId" :key="item.id">
+                    <FormItem label="所属组织" prop="organizationId">
+                        <Select  v-model="formItem.organizationId">
+                            <Option v-for="item in organizationData" :value="item.organizationId" :key="item.id">
                                 {{ item.organizationName }}
                             </Option>
                         </Select>
@@ -45,14 +45,6 @@
                     </FormItem>
                 </Col>
                 <Col span="10" offset="1">
-                    <FormItem label="电子邮箱" prop="emailAddress">
-                        <Input v-model="formItem.emailAddress" :maxlength=40>
-                        </Input>
-                    </FormItem>
-                </Col>
-            </Row>
-            <Row>
-                 <Col span="10" offset="1">
                     <FormItem label="用户角色" prop="roleId">
                         <Select  v-model="formItem.roleId" v-if="!formItem.role.isAdmin">
                             <Option v-for="item in roleList" :value="item.id" :key="item.id">
@@ -63,20 +55,15 @@
                         </Input>
                     </FormItem>
                 </Col>
-                <Col span="10" offset="1">
-					<FormItem label="是否启用" prop="enabled">
-						<RadioGroup v-model="formItem.enabled">
-                            <Radio 
-                                v-for="item in enabledList" 
-                                :key='item.code' 
-                                :label="item.code">
-                                {{item.label}}
-                            </Radio>
-                        </RadioGroup>
-					</FormItem>
-                </Col>
             </Row>
+            
             <Row>
+                <Col span="10" offset="1">
+                    <FormItem label="电子邮箱" prop="emailAddress">
+                        <Input v-model="formItem.emailAddress" :maxlength=40>
+                        </Input>
+                    </FormItem>
+                </Col>
                 <Col span="10" offset="1" v-if="!isEdit"> 
                     <FormItem label="用户密码" prop="userPassword">
                         <Input type="password" :maxlength=30 v-model="formItem.userPassword" >
@@ -90,8 +77,6 @@
                     </FormItem>
                 </Col>
             
-            </Row>
-            <Row>
                 <Col span="10" offset="1" v-if="isEdit">
                     <FormItem label="用户密码">
                         <div>
@@ -180,8 +165,10 @@
                     self.formItem.id = response.content.id;
                     self.$Message.success('保存成功');
                     self.$emit('handleBackList','1');                    
-                }else if(response.code == 101){
+                }else if(response.code == 401){
                     self.$Message.error('该手机号码已经被注册');
+                }else if(response.code == 101){
+                    self.$Message.error('请先删除顺序开锁设置和任务或解绑锁具');
                 } else {
                     self.$Message.error('保存失败');
                 }
@@ -288,12 +275,10 @@
                 role: {},
                 formItem: {
                     role: {},
-                    principalOrganizationId: '', //所属组织
                     userPassword: '', //用戶密碼
                     confirmPassword: '', //确认密码
                     userName: '', //登陆用户
                     personName: '', //真实姓名
-                    enabled: 0, //是否启用
                     mobileNumber: '', //移动电话
                     emailAddress: '', //邮箱地址
                     roleId: '', //角色信息
@@ -325,7 +310,7 @@
 
                 organizations: [],
                 ruleValidate: {
-                    principalOrganizationId: [
+                    organizationId: [
                         {
                             required: true,
                             message: "请选择所属组织",

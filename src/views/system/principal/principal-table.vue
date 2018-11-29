@@ -63,7 +63,7 @@ const getPrincipalListAction = (self) =>  {
                     if (item.organizationInfo) {
                         item.organizationCode = item.organizationInfo.organizationCode;
                         item.organizationName = item.organizationInfo.organizationName;
-                        item.principalOrganizationId = item.organizationInfo.id;
+                        item.organizationId = item.organizationInfo.id;
                     }
                 })
                 self.total = response.content.rowCount;

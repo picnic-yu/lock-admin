@@ -2,7 +2,7 @@
  * @Author: Hano.zhang 
  * @Date: 2018-02-01 15:19:26 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-10-25 20:11:03
+ * @Last Modified time: 2018-11-29 13:43:57
  */
 // 数据字典
 export default {
@@ -74,10 +74,6 @@ export default {
         {
             'code': 'AU',
             'value': '锁具授权'
-        },
-        {
-            'code': 'GS',
-            'value': '组合开锁监护'
         },
         {
             'code': 'LB',

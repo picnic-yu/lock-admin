@@ -176,7 +176,7 @@ const sendSeedAction = (self) => {
         }else if(res.code == 404){
             self.$Message.error('请选择种子');
         }else if(res.code == 401){
-            self.$Message.error('请选择有效用户单位');
+            self.$Message.error('请先删除重新分发锁具的顺序开锁设置和任务');
         }else{
             self.$Message.error('分发失败');
         }
@@ -192,6 +192,8 @@ const deletelockSeedAction = (self,id) => {
         if(res.code == 204){
             self.$Message.success('删除成功');
             getList(self,self.queryParam)
+        }else if(res.code == 101){
+            self.$Message.error('请先删除顺序开锁设置和任务');
         }else{
             self.$Message.error('删除失败');
         }

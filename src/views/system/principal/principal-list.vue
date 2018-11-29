@@ -3,7 +3,7 @@
         
         <section class="portlet-title" >
             <Icon type="person-stalker"></Icon>
-            <span class='title_text'>单位组别</span>
+            <span class='title_text'>用户信息管理</span>
         </section>
         <section class='list-wrap' v-show='!diaplayForm'>
             <Row type="flex" justify="center" align="top" :gutter='20' class="code-row-bg">
@@ -39,7 +39,7 @@ let getOrganizationsAction = (self) => {
             if (response.code == 200) {
                 self.organizationData = response.content;
                 self.organizationData.forEach(item => {
-                    item.principalOrganizationId = item.id;
+                    item.organizationId = item.id;
                 });
             } 
             resolve();

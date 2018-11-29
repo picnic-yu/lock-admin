@@ -233,7 +233,7 @@ export default {
                         userPassword: this.userForm.userPassword,
                         mobileNumber: this.userForm.mobileNumber,
                         emailAddress: this.userForm.emailAddress,
-                        principalOrganizationId: this.dto.organizationInfo.id,
+                        organizationId: this.dto.organizationInfo.id,
                         enabled: 1,
                         personName: this.dto.personName,
                         roleId: this.dto.role.id,

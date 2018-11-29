@@ -195,6 +195,8 @@ const addGroupAction = (self) => {
             self.$Message.success('保存成功');
             // self.editModalStatus = false;
             getList(self,self.queryParam);
+        }else if(res.code == 101){
+            self.$Message.error('顺序组合重复');
         }else{
             self.$Message.error('保存失败');
             
