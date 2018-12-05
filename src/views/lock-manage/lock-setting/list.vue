@@ -43,8 +43,12 @@
             <Page class='page-wrap' 
                 show-elevator 
                 show-total 
+                show-sizer
+                transfer 
+                :page-size-opts='pageSizeOpts'
                 :current ="queryParam.pageNumber+1" 
                 :total="total" 
+                @on-page-size-change='pageSizeChange'
                 @on-change='pageChange'>
             </Page>
         </section>
@@ -399,6 +403,7 @@ export default {
             placeholderValue:"输入锁具ID",
             listData: [{}],
             isLoading: false,
+            pageSizeOpts:[10,20,50,100],
             total: 0,
             ipColum:[
                 {
@@ -610,6 +615,10 @@ export default {
         },
         pageChange(data) {
             this.queryParam.pageNumber = data -1;
+            this.getListData();
+        },
+        pageSizeChange(size){
+            this.queryParam.pageSize = size;
             this.getListData();
         },
         //	获取列表页面

@@ -41,10 +41,14 @@
                 </Spin>
             </div>
             <Page class='page-wrap' 
-                show-elevator 
+                show-elevator
+                show-sizer
+                transfer 
                 show-total 
+                :page-size-opts='pageSizeOpts'
                 :current ="queryParam.pageNumber+1" 
                 :total="total" 
+                @on-page-size-change='pageSizeChange'
                 @on-change='pageChange'>
             </Page>
         </section>
@@ -340,6 +344,7 @@ export default {
             listData: [{}],
             isLoading: false,
             total: 0,
+            pageSizeOpts:[10,20,50,100],
             ipColum:[
                 {
                     type: 'expand',
@@ -529,6 +534,10 @@ export default {
         },
         pageChange(data) {
             this.queryParam.pageNumber = data -1;
+            this.getListData();
+        },
+        pageSizeChange(size){
+            this.queryParam.pageSize = size;
             this.getListData();
         },
         //	获取列表页面
