@@ -34,7 +34,11 @@
                 </div>
                 <Page class='page-wrap' show-elevator show-total  
                     :total="total" 
+                    show-sizer
+                    transfer 
+                    :page-size-opts='pageSizeOpts'
                     :current="queryParam.pageNumber+1"
+                    @on-page-size-change='pageSizeChange'
                     @on-change='pageChange' >
                 </Page>
             </div>
@@ -112,6 +116,7 @@ export default {
         return {
             placeholderValue:'',
             isDelete:false,
+            pageSizeOpts:[10,20,50,100],
             queryParam: {   //分页查询参数                 
                 "pageSize": 10,
                 "keyWords": "",
@@ -264,6 +269,10 @@ export default {
        
         pageChange(data) { //分页查询
             this.queryParam.pageNumber = data -1;
+            this.getListData();
+        },
+        pageSizeChange(size){
+            this.queryParam.pageSize = size;
             this.getListData();
         },
         selectItem(data){
