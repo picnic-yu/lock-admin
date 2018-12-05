@@ -47,6 +47,10 @@
 				</div>
 				<Page class='page-wrap' show-elevator show-total  
 					:total="total" 
+					show-sizer
+					transfer 
+					:page-size-opts='pageSizeOpts'
+					@on-page-size-change='pageSizeChange'
 					:current = "queryParam.pageNumber+1"
 					@on-change='pageChange' >
 				</Page>
@@ -133,6 +137,7 @@
 					"keyWords": '',
 					"pageNumber": 0
 				},
+				pageSizeOpts:[10,20,50,100],
 				remarks: '',
 				numberOfCard: '',
 				log_loading:false,//进入log页面加载
@@ -256,6 +261,10 @@
 			},
 			pageChange(data) {
 				this.queryParam.pageNumber = data -1;
+				this.getListData();
+			},
+			pageSizeChange(size){
+				this.queryParam.pageSize = size;
 				this.getListData();
 			},
 			//授权
