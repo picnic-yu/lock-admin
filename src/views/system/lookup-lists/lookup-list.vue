@@ -8,14 +8,10 @@
         <div v-show='showList' class='query-wrap border-wrap'>
             <div class="operate-wrap">
                 <operate class='operate' 
-                    :deleteStatus='isSelect' 
-                    :edit='isSelect' 
                     :data='data' 
                     :refreshStatus='true'
                     @refreshHandler='refreshHandler'
-                    @editHandler='editHandler'
-                    @addHandler='addHandler'
-                    @deleteHandler='deleteHandler'></operate>
+                    @addHandler='addHandler'></operate>
             </div>
             <div class="search-wrap">
                 <search class='search-component'
@@ -93,12 +89,16 @@
 		return new Promise((resolve, reject) => {
 			deleteLookupLists(data.id).then(response => {
 				if(response.code == 204 ){
-					self.isSelect = false;
+                    self.isSelect = false;
+                    self.$Message.success('删除成功');
 					self.getListData();
-				}
+				}else{
+                    self.$Message.error('删除失败');
+                }
 				self.isLoading = false;
 				resolve();
 			}).catch(error => {
+                self.$Message.error('删除失败');
 				self.isLoading = false;
 				reject(error);
 			})
@@ -124,6 +124,41 @@
                         title: '字典名称',
                         key: 'lookupDescription',
                         align: 'center'
+                    },
+                    {
+                        title: '操作',
+                        key: 'action',
+                        width: 150,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.editHandler(params.row)
+                                        }
+                                    }
+                                }, '编辑'),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.handleDelete(params.row)
+                                        }
+                                    }
+                                }, '删除')
+                            ]);
+                        }
                     }
                 ],
                 listData: [], //数据集合
@@ -176,7 +211,8 @@
                 this.isEdit = false;
 				this.titleText = '新增数据字典信息';
             },
-            editHandler() { //编辑
+            editHandler(row) { //编辑
+                this.data =row;
                 this.showAddOrEdit = true;
                 this.isEdit = true;
                 this.showList = false;
@@ -208,11 +244,22 @@
 					this.getListData();
 				}
             },
-            deleteHandler(data) { //删除
-                let index = this.selectIndex;
-                this.isLoading = true;
-                deleteAction(this, this.data);
+            handleDelete(row){
+                this.$Modal.confirm({
+                    title: '提示',
+                    content: '确定要删除吗',
+                    okText: '确定',
+                    cancelText: '取消',
+                    onOk: () => {
+                        deleteAction(this, row);
+                    },
+                    onCancel: () => {
+                        
+                        
+                    }
+                })
             },
+            
             previewDetail(index) { //点击属性链接查看
 				// this.data = this.listData[index];
 				// this.numberParam = this.listData[index].numberOfCard;

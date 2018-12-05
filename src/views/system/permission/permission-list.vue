@@ -9,16 +9,10 @@
 			<div v-show='showList' class='query-wrap border-wrap'>
 				<div class="operate-wrap">
 					<operate class='operate' 
-						:deleteStatus='isSelect' 
-						:edit='isSelect' 
 						:data='dataItem'
-						:dynamicBtn='dynamicBtn' 
 						:refreshStatus='true'
-						@deleteHandler='deleteHandler' 
-						@dynamicBtnHandler='dynamicBtnHandler'
 						@refreshHandler = 'refreshHandler'
-						@addHandler='addHandler' 
-						@editHandler='editHandler'></operate>
+						@addHandler='addHandler' ></operate>
 
 				</div>
 				<div class="search-wrap">
@@ -99,7 +93,7 @@
                                     
                                     on: {
                                         click: () => {
-                                            this.previewPage(params.index);
+                                            this.previewPage(params.rpw);
                                         }
                                     }
                                 }, params.row.permissionName )
@@ -117,7 +111,56 @@
 						width: 100,
 						key: 'statusText'
 
-					}
+					},
+					{
+                        title: '操作',
+                        key: 'action',
+                        width: 150,
+                        align: 'center',
+                        render: (h, params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.editHandler(params.row)
+                                        }
+                                    }
+								}, '编辑'),
+								h('Button', {
+                                    props: {
+                                        type: 'warning',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.handlePermission(params.row)
+                                        }
+                                    }
+                                }, '授权'),
+                                h('Button', {
+                                    props: {
+                                        type: 'error',
+                                        size: 'small'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.handleDelete(params.row)
+                                        }
+                                    }
+                                }, '删除')
+                            ]);
+                        }
+                    }
 				],
 				listData: [],
 				dataItem: {},
@@ -203,8 +246,8 @@
 				})
 			},
 			// 查看页面
-			previewPage(){
-				this.editHandler();
+			previewPage(row){
+				this.editHandler(row);
 				this.isEdit = true;
 				this.previewStatus = true;
 				this.titleText = '权限详情';
@@ -223,7 +266,8 @@
 				// 授权页面
 				this.displayDistributResource = false;
 			},
-			editHandler(){
+			editHandler(row){
+				this.dataItem = row;
 				this.add = true;
 				this.isEdit = true;
 				this.showList = false;
@@ -232,10 +276,25 @@
 				// 授权页面
 				this.displayDistributResource = false;
 			},
+			handleDelete(row){
+                this.$Modal.confirm({
+                    title: '提示',
+                    content: '确定要删除吗',
+                    okText: '确定',
+                    cancelText: '取消',
+                    onOk: () => {
+						this.deleteHandler(row);
+                    },
+                    onCancel: () => {
+                        
+                        
+                    }
+                })
+            },
 			deleteHandler(data) {
-				let index = this.selectIndex;
-				this.isLoading = true;
+
 				return new Promise((resolve, reject) => {
+					this.isLoading = true;
 					deletePermission(data).then(response => {
 
 						if(response.code == 204 ){
@@ -246,6 +305,7 @@
 							this.isSelect = false;
 						}else{
 							this.$Message.error('删除失败');
+							this.isLoading = false;
 						}
 						resolve()
 					}).catch(error => {
@@ -268,7 +328,8 @@
 				this.getListData();
 			},
 			//授权
-			dynamicBtnHandler(){
+			handlePermission(row){
+				this.dataItem = row;
 				this.showLog = false;
 				this.add = false;
 				this.showList = true;
