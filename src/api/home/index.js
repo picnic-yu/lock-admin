@@ -2,105 +2,28 @@ import request from '../../libs/utils/request';
 import store from '@/store/index';
 import BASE_URL from '@/api/config.js';
 
-// 请求联网设备列表
-export function requestWaitPosition(obj) {
+// 统计
+export function getTotal() {
     return request({
-        url: `${BASE_URL}/index/statistics/reference/positioning`,
-        method: 'post',
-        data: obj
+        url: `${BASE_URL}/index/total`,
+        method: 'get'
     })
 }
-//  关机预警
-export function requestCloseWarning(obj) {
+// 区域tree
+export function getOrgTree() {
     return request({
-        url: `${BASE_URL}/index/statistics/warning/closed/customer/count`,
-        method: 'post',
-        data: obj
+        url: `${BASE_URL}/index/org/tree`,
+        method: 'get'
     })
 }
-// 位移预警
-export function requestMoveWarning(obj) {
+
+// 区域tree
+export function getOrgLockMap(obj) {
     return request({
-        url: `${BASE_URL}/index/statistics/warning/moving/equipment/count`,
+        url: `${BASE_URL}/index/org/lock/map`,
         method: 'post',
         data: obj
     })
 }
 
-// 稼动率预警
-export function requestUrWarning(obj) {
-    return request({
-        url: `${BASE_URL}/index/statistics/warning/ur/customer/count`,
-        method: 'post',
-        data: obj
-    })
-}
 
-// 设备联网
-export function requestLinkEquipment(obj) {
-    return request({
-        url: `${BASE_URL}/index/statistics/equipment/count`,
-        method: 'post',
-        data: obj
-    })
-}
-
-// 锁机设备
-export function requestLockedEquipment(obj) {
-    return request({
-        url: `${BASE_URL}/index/statistics/equipment/locked/count`,
-        method: 'post',
-        data: obj
-    })
-}
-
-// 观察户
-export function requestObserver(obj) {
-    return request({
-        url: `${BASE_URL}/index/statistics/observer/count`,
-        method: 'post',
-        data: obj
-    })
-}
-
-// 法诉客户
-export function requestLitigation(obj) {
-    return request({
-        url: `${BASE_URL}/index/statistics/litigation/count`,
-        method: 'post',
-        data: obj
-    })
-}
-// 客户分析
-export function requestCustomerAnalysis(obj) {
-    return request({
-        url: `${BASE_URL}/index/statistics/customer/analysis`,
-        method: 'post',
-        data: obj
-    })
-}
-
-// 观察户分析
-export function requestObserverAnalysis(obj) {
-    return request({
-        url: `${BASE_URL}/index/statistics/observer/analysis`,
-        method: 'post',
-        data: obj
-    })
-}
-// 法诉客户分析
-export function requestLitigationAnalysis(obj) {
-    return request({
-        url: `${BASE_URL}/index/statistics/litigation/analysis`,
-        method: 'post',
-        data: obj
-    })
-}
-
-export function getInstallFinish(obj) {
-    return request({
-        url: `${BASE_URL}/index/statistics/install/finish`,
-        method: 'post',
-        data: obj
-    })
-}
