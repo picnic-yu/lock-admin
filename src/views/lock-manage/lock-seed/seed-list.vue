@@ -511,7 +511,7 @@ export default {
         handleDelete(index){
             this.$Modal.confirm({
                 title: '提示',
-                content: '确定要删除吗',
+                content: '将锁种子信息并解除绑定关系删除,确定删除吗',
                 okText: '确定',
                 cancelText: '取消',
                 onOk: () => {

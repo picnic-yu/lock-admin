@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-02-01 17:39:26 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-10-22 19:10:50
+ * @Last Modified time: 2018-12-13 16:52:55
  */
 <template>
 	<div class="operate">
@@ -274,20 +274,7 @@
 				this.$emit('editHandler',data);
             },
             deleteHandler(data) {
-                this.$Modal.confirm({
-                    title: '提示',
-                    content: '确定要删除吗',
-                    okText: '确定',
-                    cancelText: '取消',
-                    onOk: () => {
-                        this.$emit('deleteHandler')
-                    },
-                    onCancel: () => {
-                        
-                        
-                    }
-                })
-                
+                this.$emit('deleteHandler')
             },
             removeHandler(data){
                 this.$Modal.confirm({

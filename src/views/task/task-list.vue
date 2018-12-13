@@ -650,7 +650,21 @@ export default {
         },
         // 删除多个
         deleteHandler() {
-            deleteTaskByIdsAction(this);
+            this.$Modal.confirm({
+                title: '提示',
+                content: '删除将解除任务，确定删除吗',
+                okText: '确定',
+                cancelText: '取消',
+                onOk: () => {
+                    deleteTaskByIdsAction(this);
+                },
+                onCancel: () => {
+                    
+                    
+                }
+            })
+            
+            
         },
         // 新增
         handleAdd(){

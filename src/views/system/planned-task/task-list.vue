@@ -265,7 +265,20 @@
             deleteHandler(data) { //删除
                 let index = this.selectIndex;
                 this.isLoading = true;
-                deleteAction(this, data);
+                this.$Modal.confirm({
+                    title: '提示',
+                    content: '确定要删除吗',
+                    okText: '确定',
+                    cancelText: '取消',
+                    onOk: () => {
+                        deleteAction(this, data);
+                    },
+                    onCancel: () => {
+                        
+                        
+                    }
+                })
+                
             },
             previewDetail(index) { //点击属性链接查看
 				// this.data = this.listData[index];

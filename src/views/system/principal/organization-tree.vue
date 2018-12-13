@@ -132,7 +132,19 @@ export default {
 		},
 		
 		deleteHandler(data){
-			deleteOrganizationAction(this,this.organizationData.id);
+			this.$Modal.confirm({
+				title: '提示',
+				content: '确定要删除吗',
+				okText: '确定',
+				cancelText: '取消',
+				onOk: () => {
+					deleteOrganizationAction(this,this.organizationData.id);
+				},
+				onCancel: () => {
+					
+					
+				}
+			})
 		},
 		editHandler(data) {
 			this.isEdit = true;

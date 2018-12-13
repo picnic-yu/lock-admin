@@ -292,7 +292,20 @@ export default {
         },
         // 删除多个
         deleteHandler() {
-            deleteRecordAction(this);
+            this.$Modal.confirm({
+                title: '提示',
+                content: '确定要删除吗',
+                okText: '确定',
+                cancelText: '取消',
+                onOk: () => {
+                    deleteRecordAction(this);
+                },
+                onCancel: () => {
+                    
+                    
+                }
+            })
+            
         },
         
     },

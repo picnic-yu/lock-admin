@@ -290,7 +290,7 @@ export default {
         handleDelete(row){
             this.$Modal.confirm({
                 title: '提示',
-                content: '确定要删除吗',
+                content: '删除将解除绑定关系，确定删除吗',
                 okText: '确定',
                 cancelText: '取消',
                 onOk: () => {
