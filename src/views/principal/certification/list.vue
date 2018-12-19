@@ -88,7 +88,7 @@
                             </FormItem>
                         </Col>
                     </Row>
-                    <div class="picture">
+                    <div class="picture" style='overflow: hidden'>
                         <div class="item">
                             <img :src="taskForm.facadePhoto"  />
                         </div>
@@ -105,7 +105,7 @@
                             <img :src="taskForm.attachment2"  />
                         </div>
                     </div>
-                    <div class="picture-dec">
+                    <div class="picture-dec" >
                         <div class="item">
                             身份证正面
                         </div>
