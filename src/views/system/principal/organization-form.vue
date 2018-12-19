@@ -35,7 +35,11 @@
                                 :key="item.id+'-'+ index">{{ item.permissionName }}</Option>
                         </Select>
                     </FormItem>
-                   
+                    <FormItem label="组类别" prop="orgType">
+                        <Select v-model="formValidate.orgType">
+                            <Option v-for="item in orgTypeList" :value="item.code" :key="item.value">{{ item.value }}</Option>
+                        </Select>
+                    </FormItem>
                 </div>
             </Form>
             <Spin :fix='true' v-show='isLoading'>
@@ -206,11 +210,19 @@ export default {
                 userName:'',
                 userPassword:'',
                 image:{},
+                orgType:0,
                 organizationLogo: '',//图片logo
             },
             permissionList:[],//权限列表
             permissionArr:[],
             organizations:[],
+            orgTypeList:[{
+                code:0,
+                value:'单位'
+            },{
+                code:1,
+                value:'区域'
+            }],
             ruleValidate:{
                 organizationName: [
                     { required: true, message: '请输入单位组别名', trigger: 'change' }
