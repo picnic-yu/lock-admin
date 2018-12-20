@@ -4,30 +4,29 @@
             <Icon type="clipboard"></Icon>
             <span class='title_text'>帮助与反馈</span>
         </div>
-        <Form ref="formValidate" class= 'formvalidate-wrap' :model="formValidate" :rules="ruleValidate" :label-width="140">
+        <div ref="editor" style="text-align:left"></div>
+        <!-- <Form ref="formValidate" class= 'formvalidate-wrap' :model="formValidate" :rules="ruleValidate" :label-width="140">
             <Row>
                 <Col span="23">
 					<FormItem label="帮助与反馈内容" prop="helpContent">
-						<Input type="textarea" :rows="4" v-model="formValidate.helpContent" 
-							placeholder="请输入帮助与反馈内容"  >
-						</Input>
+						<div ref="editor" style="text-align:left"></div>
 					</FormItem>
                 </Col>
                 
             </Row>
-           
-            <div class="button-gropEl">
+            
+            
+        </Form> -->
+        <div class="button-gropEl" style='margin-top:20px'>
                 
-                <Button type="primary" @click="handleSubmit('formValidate',0)" :loading='saveLoading' >保存</Button>
-            </div>
-        </Form>
-        
+            <Button type="primary" @click="handleSubmit('formValidate',0)" :loading='saveLoading' >保存</Button>
+        </div>
        
     </section>
     
 </template>
 <script>
-
+import E from 'wangeditor'
 import { getFeedback,saveFeedback } from '@/api/system/feedback/index.js';
 /**
 * 函数功能简述 新增邮件配置接口
@@ -56,13 +55,13 @@ const saveFeedbackAction = (self) => {
 * 函数功能简述 新增邮件配置接口
 *@param    {object}  self     vue this 
 */
-const getFeedbackAction = (self) => {
+const getFeedbackAction = (self,editor) => {
     
     return new Promise((resolve, reject) => {
         getFeedback().then(response => {
             if(response.code == 200 ){
                 self.formValidate = response.content;
-                
+                editor.txt.html(response.content.helpContent)
             }
             resolve();
         }).catch(error => {
@@ -102,19 +101,19 @@ export default {
                
                 helpContent:''
             },
-            
-            ruleValidate: {
-                helpContent: [
-                    { required: true, message: '请输入帮助与反馈内容', trigger: 'change' }
-                ]
-                
-            },
             saveLoading:false,
             
         }
     },
     mounted() {
-       getFeedbackAction(this);
+        var editor = new E(this.$refs.editor)
+        editor.customConfig.uploadImgShowBase64 = true   // 使用 base64 保存图片
+        editor.customConfig.onchange = (html) => {
+            this.formValidate.helpContent = html
+        }
+        editor.create()
+        getFeedbackAction(this,editor);
+        
     },
     watch:{
        
@@ -128,11 +127,10 @@ export default {
         */
         handleSubmit (name,flag) {
             // 保存
-            this.$refs[name].validate((valid) => {
-                if (valid) {
-                    saveFeedbackAction(this);
-                } 
-            })
+            if(!this.formValidate.helpContent){
+                return this.$Message.error('帮助与反馈内容不能为空');
+            }
+            saveFeedbackAction(this);
         },
        
         /**
@@ -146,5 +144,8 @@ export default {
 }
 </script>
 <style lang='less'>
-	@import "../../../styles/searchAndOperate.less";
+    @import "../../../styles/searchAndOperate.less";
+    .w-e-text-container{
+        min-height: 600px;
+    }
 </style>

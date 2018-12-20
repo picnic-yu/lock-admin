@@ -190,8 +190,10 @@
                     self.$Message.success('保存成功');
                     self.$emit('handleBackList','1');
                     self.isSelect = false;
-                }else if(response.code == 101){
+                }else if(response.code == 401){
                     self.$Message.error('该手机号码已经被注册');
+                }else if(response.code == 101){
+                    self.$Message.error('请先删除顺序开锁设置和任务或解绑锁具');
                 } else {
                     self.$Message.error('保存失败');
                 }
