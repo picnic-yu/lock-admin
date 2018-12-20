@@ -135,7 +135,7 @@
                         </Col>
                         <Col span="10" offset="1">
                             <FormItem label="单位组别" prop="organizationInfoId"  >
-                                <Select v-model="taskForm.organizationInfoId">
+                                <Select v-model="taskForm.organizationInfoId" :disabled="taskForm.displayStatus =='已实名'" >
                                     <Option v-for="item in organizationList" :value="item.id" :key="item.organizationName">{{ item.organizationName }}</Option>
                                 </Select>
                             </FormItem>
