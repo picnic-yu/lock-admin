@@ -92,6 +92,10 @@ const getList=function(self,params){
         if(res.code == 200){
             self.total = res.content.rowCount;
             self.listData = res.content.data;
+			self.listData.forEach((item) => {
+				item.locationCode = item.lockInfo.locationCode;
+				item.facilityName = item.lockInfo.facilityName;
+			});
         }else{
             self.listData = [];
             self.total = 0;
@@ -210,6 +214,16 @@ export default {
                 {
                     title: '锁具位置',
                     key: 'locationAddress',
+                    align: 'center'
+                },
+				{
+                    title: '设施名称',
+                    key: 'facilityName',
+                    align: 'center'
+                },
+				{
+                    title: '位置编号',
+                    key: 'locationCode',
                     align: 'center'
                 }
             ],
