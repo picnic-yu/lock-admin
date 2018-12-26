@@ -113,8 +113,8 @@
                                     placeholder="请选择锁具ID "
                                     filterable
                                     remote
+                                    :label='taskForm.lockId'
                                     :remote-method="lockIdRemote"
-                                    :label='""'
                                     :loading="lockIdLoading"
                                 >
                                     <Option v-for="item in lockIdList"
@@ -441,7 +441,7 @@ export default {
                 ],
             },
             modalTitle:'新增',
-            titleText:"授权记录",
+            titleText:"任务管理",
             placeholderValue:"输入锁具ID",
             listData: [],
             isLoading: false,
@@ -594,8 +594,9 @@ export default {
         },
         lockIdRemote(query){
             if (query !== '') {
-                // this.companyName = query;
-                
+                if(this.selectRowData.lockInfo&&query == this.selectRowData.lockInfo.id ){
+                    query = this.selectRowData.lockInfo.lockId;
+                }
                 getLockinfoListAction(this,query);
             } else {
                 this.lockIdList = [];
@@ -603,7 +604,9 @@ export default {
         },
         lockIdGroupIdRemote(query){
              if (query !== '') {
-               
+                if(this.selectRowData.lockGroup&&query == this.selectRowData.lockGroup.id ){
+                    query = this.selectRowData.lockGroup.groupNumber;
+                }
                 getGroupListAction(this,query);
             } else {
                 this.lockGroupIdList = [];
@@ -684,6 +687,7 @@ export default {
             }
         },
         handleEdit(row){
+            this.selectRowData =row;
             this.handleReset('taskForm');
             this.modalTitle = '编辑';
             this.formModal = true;
@@ -691,11 +695,11 @@ export default {
                 this.taskForm.lockGroupId = row.lockGroup.id;
             }
             if(row.lockInfo){
+                this.taskForm.lockId = row.lockInfo.lockId;
                 this.taskForm.lockInfoId = row.lockInfo.id;
             }
             if(row.organizationInfo){
                 this.taskForm.organizationInfoId = row.organizationInfo.id;
-                
             }
             this.taskForm.startTime = row.displayST;
             this.taskForm.endTime = row.displayET;
