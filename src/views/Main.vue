@@ -7,7 +7,7 @@
             <header style='width:100%;height:40px;background-color:#3b3846'>
                 <div class="main-header" style="height:40px;background-color:#3b3846">
                     <div slot="top" class="logo-con" style="text-align:left;padding:2px 18px 8px;">
-                        <!-- <img style='height:25px;' :src="organizationLogo" key="max-logo" /> -->
+                        <img style='height:25px;' :src="organizationLogo" key="max-logo" />
                     </div>
                     <div class="header-avator-con">
                         <full-screen v-model="isFullScreen" @on-change="fullscreenChange"></full-screen>
