@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-01-29 10:24:39 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-11-13 14:15:13
+ * @Last Modified time: 2019-01-04 16:30:06
  */
 /**
  * 路由配置
@@ -213,8 +213,32 @@ export const appRouter = [
                         resolve
                     );
                 }
-            }
-      
+            },
+            {
+                path: 'login-list',
+                title: '系统登录记录',
+                name: 'login-list',
+                icon: 'ios-paw',
+                component: resolve => {
+                    require(
+                        ['@/views/reports/login-list/list.vue'],
+                        resolve
+                    );
+                }
+            },
+            // {
+            //     path: 'statistics',
+            //     title: '数据统计',
+            //     name: 'statistics',
+            //     icon: 'ios-paw',
+            //     component: resolve => {
+            //         require(
+            //             ['@/views/reports/statistics/list.vue'],
+            //             resolve
+            //         );
+            //     }
+            // },
+            
         ]
     },
     {
@@ -334,13 +358,23 @@ export const appRouter = [
             },   
             {
 				path: 'feedback',
-				title: '短信通知',
+				title: '帮助与反馈',
 				name: 'feedback',
 				icon: 'email',
 				component: resolve => {
 					require(['@/views/system/feedback/form.vue'], resolve);
 				}
             }, 
+            // {
+			// 	path: 'app-version',
+			// 	title: 'app版本',
+			// 	name: 'app-version',
+			// 	icon: 'email',
+			// 	component: resolve => {
+			// 		require(['@/views/system/app-version/app-version.vue'], resolve);
+			// 	}
+            // }
+            
         ]
     }
 ];
