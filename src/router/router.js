@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-01-29 10:24:39 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2019-01-04 16:30:06
+ * @Last Modified time: 2019-01-09 14:18:41
  */
 /**
  * 路由配置
@@ -226,18 +226,18 @@ export const appRouter = [
                     );
                 }
             },
-            // {
-            //     path: 'statistics',
-            //     title: '数据统计',
-            //     name: 'statistics',
-            //     icon: 'ios-paw',
-            //     component: resolve => {
-            //         require(
-            //             ['@/views/reports/statistics/list.vue'],
-            //             resolve
-            //         );
-            //     }
-            // },
+            {
+                path: 'statistics',
+                title: '数据统计',
+                name: 'statistics',
+                icon: 'ios-paw',
+                component: resolve => {
+                    require(
+                        ['@/views/reports/statistics/list.vue'],
+                        resolve
+                    );
+                }
+            },
             
         ]
     },

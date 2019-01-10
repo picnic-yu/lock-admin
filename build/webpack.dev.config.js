@@ -55,9 +55,7 @@ module.exports = merge(webpackBaseConfig, {
 			//匹配代理的url
 			'/lock-api': {
 				// 目标服务器地址
-                target: 'http://172.16.10.111:8082',
-                // target: 'http://172.16.10.145:8082',
-                // target: 'http://172.16.10.141:8085',
+                target: 'http://172.16.10.119:8082',
 				//路径重写
 				pathRewrite: {
 					
