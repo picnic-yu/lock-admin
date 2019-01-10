@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-02-01 17:39:26 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2018-12-13 16:52:55
+ * @Last Modified time: 2019-01-10 10:03:36
  */
 <template>
 	<div class="operate">
@@ -19,6 +19,13 @@
 				shape="circle" 
 				@click='addHandler'>新增</Button>
 		</span>
+        <span class='operate-btn' v-if='publishStatus'>
+			<Button type="primary" 
+				icon="plus-round" 
+				shape="circle" 
+				@click='handlePublish'>版本发布</Button>
+		</span>
+        
         <span class='operate-btn' v-if='exportStatus'>
 			<Button type="primary" 
 				icon="plus-round" 
@@ -131,6 +138,11 @@
             },
             // 移除
             removeStatus: {
+                type:Boolean,
+                default:false
+            },
+            // 版本发布
+            publishStatus: {
                 type:Boolean,
                 default:false
             },
@@ -260,6 +272,9 @@
 			//处理点击添加按钮事件
 			addHandler() {
 				this.$emit('addHandler');
+            },
+            handlePublish(){
+                this.$emit('handlePublish');
             },
             // 处理导入按钮操纵
             handleExport(){

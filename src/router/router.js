@@ -2,7 +2,7 @@
  * @Author: chenboyu 
  * @Date: 2018-01-29 10:24:39 
  * @Last Modified by: chenboyu
- * @Last Modified time: 2019-01-09 14:18:41
+ * @Last Modified time: 2019-01-10 13:50:33
  */
 /**
  * 路由配置
@@ -365,15 +365,15 @@ export const appRouter = [
 					require(['@/views/system/feedback/form.vue'], resolve);
 				}
             }, 
-            // {
-			// 	path: 'app-version',
-			// 	title: 'app版本',
-			// 	name: 'app-version',
-			// 	icon: 'email',
-			// 	component: resolve => {
-			// 		require(['@/views/system/app-version/app-version.vue'], resolve);
-			// 	}
-            // }
+            {
+				path: 'app-version',
+				title: 'APP版本控制',
+				name: 'app-version',
+				icon: 'email',
+				component: resolve => {
+					require(['@/views/system/app-version/app-version.vue'], resolve);
+				}
+            }
             
         ]
     }

@@ -4,31 +4,28 @@
             <span>{{modeltitle}}</span>
         </p>
         <div>
-			<span style='width:125px;display: inline-block;vertical-align: middle;'>请选择导入TXT文件</span>
+			<span style='width:90px;display: inline-block;vertical-align: middle;text-align:right;'>APP发布：</span>
 			<Upload style='display:inline-block;vertical-align: middle;width:calc(100% - 150px);margin-left:20px;' 
 				:headers = 'lockForm'
 				:before-upload ="handleUpload"
 				:on-success ='uploadSuccess'
-				accept=".txt"
+				accept=".apk"
+				:data='lockForm'
 				:on-error = 'uploadError'
 				:action="actionUrl">
-				<Button type="ghost">{{ file?file.name:'请选择导入文件' }}</Button><span style='color:red;display:inline-block;padding-left:15px;'>提示,只能选择txt文件</span>
+				<Button type="ghost">{{ file?file.name:'请选择app文件' }}</Button><span style='color:red;display:inline-block;padding-left:15px;'>提示,只能选择apk文件</span>
 			</Upload>
             <Form  class="control-group" style='margin-top:15px;' ref="lockForm"  :rules="ruleValidate" :model="lockForm" :label-width="90">
                 
-                <FormItem label="锁具版本" prop="lockVersion">
-                    
-                    <Select   v-model="lockForm.lockVersion" placeholder="请选择锁具版本">
-                        <Option v-for="item in lockVersionList" :value="item.code" :key="item.value">
-                            {{item.value}}
-                        </Option>
-                    </Select>
-                </FormItem>
-                <FormItem label="所属单位" prop="organizationInfoId" >
-                    <Select v-model="lockForm.organizationInfoId">
-                        <Option v-for="item in organizationList" :value="item.id" :key="item.organizationName">{{ item.organizationName }}</Option>
-                    </Select>
-                </FormItem>
+                <FormItem label="名称" prop="versionName">
+					<Input v-model="lockForm.versionName" placeholder="请输入名称"></Input>
+				</FormItem>
+				<FormItem label="版本" prop="appVersionCode">
+					<Input v-model="lockForm.appVersionCode" placeholder="请输入版本"></Input>
+				</FormItem>
+                <FormItem label="备注" prop="remarks">
+					<Input v-model="lockForm.remarks" placeholder="请输入备注"></Input>
+				</FormItem>
             </Form>
 			
 		</div>
@@ -51,8 +48,6 @@
 <script>
 	import { upload } from '@/api/importData/index';
     import { Message } from 'iview';
-    import { lookUpdata } from '@/libs/lookup/lookupInfo';
-    import lookupUtils from '@/libs/utils/lookupUtils';
 	export default {
 		props: {
 			importstatus: {
@@ -67,13 +62,14 @@
 			actionUrl: {
 				type: String,
 				default: ''
-            },
-            organizationList:{
-                type:Array,
-                default:function(){
-                    return []
-                }
-            }
+			},
+			editData:{
+				type: Object,
+				default: function(){
+					return {}
+				}
+			}
+           
 		},
 		data() {
 			let self = this;
@@ -83,30 +79,17 @@
 				
 				infoModal: this.importstatus, //创建props属性importstatus的副本--infoModal
 				resolve: '',
-				storeHouse: 'SUZHOU',
-				storeHouseLookUp: [],
 				
                 lockForm:{
-                    lockId:'',
+                    
                     "authorization": self.$store.state.user.token,
-                    organizationInfoId:'',//所属单位id
-                    lockVersion:1
-                },//编辑锁信息表单
+					versionName:'',
+					remarks:'',
+					appVersionCode:''
+                },
                 ruleValidate:{
-                    organizationInfoId: [
-                        {required: true, message: '请输入所属单位', trigger: 'change'}
-                    ],
+                    
                 },//规则校验
-                lockVersionList:[
-                    {
-                        code: 1,
-                        value:'自动锁'
-                    },
-                    {
-                        code: 0,
-                        value:'手动锁'
-                    },
-                ],
 			}
 		},
 		methods: {
@@ -145,16 +128,17 @@
 			uploadSuccess(response, file, fileList) {
 				this.loadingStatus = false;
 				
-				if(response.code == 100){
+				if(response.code == 201){
 					Message.success('导入成功');
 					this.infoModal = false;
 					this.$emit('importSuccess');
 					this.file = null;
-				}
-				if(response.code == 101){
-					Message.error('导入失败，数据已存在');
+				}else{
+					Message.error('导入失败');
 					this.file = null;
+					this.loadingStatus = false;
 				}
+
 			},
 			uploadError(error, file, fileList){
 				Message.error('导入失败');
@@ -165,12 +149,15 @@
 		watch: {
 			importstatus(val) {
 				this.infoModal = val;
+				if(val && this.editData.id){
+					Object.assign(this.lockForm,this.editData);
+				}
 			},
 			infoModal(val){
 				//组件内对infoModal变更后向外部发送事件通知
                 this.$emit('on-change', val);
                 if(val){
-                    this.handleReset('lockForm');
+                    // this.handleReset('lockForm');
                 }
 			},
 			
