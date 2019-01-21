@@ -12,7 +12,7 @@
                                 <DatePicker 
                                     :value="value2" 
                                     @on-change='handleDateChange'
-                                    format="yyyy/MM/dd" 
+                                    format="yyyy-MM-dd" 
                                     type="daterange" 
                                     placement="bottom-end" 
                                     placeholder="请选择时间段">
