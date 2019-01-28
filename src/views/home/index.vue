@@ -504,10 +504,13 @@ div.amap-box {
 }
 .org_lock{
     float: right;
+    min-height:640px;
+    background-color: #fff;
+    padding:20px 0;
 }
 div.amap-box #map-container{
     margin-top:1px;
-    height: 400px;
+    min-height: 640px;
 }
 
 </style>

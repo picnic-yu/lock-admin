@@ -7,15 +7,36 @@ footer{
     width: 100%;
     margin: 0 auto;
 }
-
+.footer-split{
+    width:2px;
+  height:28px;
+  background:rgba(204,204,204,1);
+  float: left;
+  margin-top: 3px;
+      margin-right: 24px;
+      // margin-left: 24px;
+  }
+  .footer-main{
+    height: 50px;
+    // background:red;
+    margin-top: 50px;
+    display: inline-block;
+  }
+.main-bg{
+    height: calc(~"100% - 240px");
+     margin-top:120px;
+   background-image:url("../../images/leasing-banner-2.jpg");
+   background-size: cover;
+    background-position: center;
+}
 
 
 .login{
-    width: 336px;
+    // width: 336px;
     // min-height: 440px;
     background: rgba(255, 255, 255, 0.84);
     position: absolute;
-    top: 100px;
+    top: 176px;
     left: 50%;
     transform: translateX(168px);
     margin: 0 auto;
@@ -113,6 +134,7 @@ footer{
 }
 
 #loginPage {
+    
     width: 100%;
     min-width: 1200px;
     overflow: hidden;
@@ -120,50 +142,62 @@ footer{
     min-height: 100%;
     position: relative;
     background:white;
-    // background: url('../../images/cloudkeeper-bg.jpg') no-repeat top center;
-    // background-size:cover;
+    // background: url('../../images/bg.png') no-repeat top center;
+    // background-size:unset;
     //  background-attachment: fixed;
     header{
         z-index:9;
         width: 100%;
+        height: 120px;
         position: absolute;
-        background: rgba(55,61,65,.3);
+        background:white;
         transition:background .3s cubic-bezier(0,0,.2,1) .15s;       
         border-bottom:1px solid hsla(0,0%,100%,.15);
-        &:hover{
-            background: @defaultBackground;
-        }
+        
+        // &:hover{
+        //     background: @defaultBackground;
+        // }
     }
     .header-inner{
-        height: 60px;
+        height: 120px;
         width: 1200px;
-        margin: 0 auto;
+        // margin: 0 auto;
+        margin-left: 120px;
         // transition: all 1
 
         // border-bottom:1px solid black;
         font-size: 24px;
         color: white;
-
-        .logo-img{
-            margin-top: 11px;
-            display: block;
-            border-right:1px solid white;
-            width: 175px;
-            height: 70%;
+        .inner-word{
+            // width:240px;
+            height:31px;
+            font-size:24px;
+            font-family:MicrosoftYaHei;
+            font-weight:400;
+            color:#333333;
+            line-height:120px;
             float: left;
-            margin-right: 10px;
-            padding-right: 10px;
-            background: url('../../images/liantong.png') no-repeat center;
-            display: inline-block;
-            vertical-align: middle;
-            background-size: 150px auto;
+            margin-left: 24px;
         }
-        
-        span{
+        .logo-img{
+            margin-top: 18px;
+            display: block;
+            // border-right:1px solid white;
+            // width: 190px;
+            width: 60px;
+            height: 66%;
+            float: left;
+            // margin-right: 10px;
+            // padding-right: 24px;
+            background: url('../../images/ic_launcher.png') no-repeat center;
             display: inline-block;
+            background-size: contain;
+            // vertical-align: middle;
+        }
+        span{
+            display: block;
             padding-top: 16px;
             line-height: 24px;
-            margin-top: 5px;
 
         }
     }
@@ -177,6 +211,40 @@ footer{
         padding: 20px 0 30px;
         img{
           width: 220px;
+        }
+    }
+    footer{
+        z-index:9;
+        width: 100%;
+        height: 120px;
+        position: absolute;
+        background:white;
+        transition:background .3s cubic-bezier(0,0,.2,1) .15s;       
+        border-bottom:1px solid hsla(0,0%,100%,.15);
+        display: table-cell;
+                vertical-align: middle;
+                text-align: center;
+        .footer-inner{
+            .header-inner;
+            display: inline-block;
+            .logo-img{
+                // width:138px;
+                // height:24px;
+                // float: left;
+                // padding-right: 10px;
+                margin-top: 0px;
+                background: url('../../images/ic_launcher.png') no-repeat center;
+                background-size: contain;
+            }
+            .footer-inner-word{
+                float: left;
+                font-size:16px;
+                font-family:MicrosoftYaHei;
+                font-weight:400;
+                color:#666666;
+                line-height: 29px;
+                // line-height:18px;
+            }
         }
     }
 
@@ -199,9 +267,9 @@ article{
             
             // border-radius: 50%;
             background: rgba(255, 255, 255, 0.1);
-            // height: 180px;
+            height: 180px;
             // line-height: 200px;
-            width: 680px;
+            width: 500px;
             color: white;
             text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
             top: 300px;
@@ -210,7 +278,6 @@ article{
                 font-size: 36px;
                 font-weight: 500;
                 font-family: "宋体";
-                
 
             }
         }
@@ -247,8 +314,88 @@ article{
         width: 90%;
     }
     .login{
-        top: 200px;
+        // top: 200px;
         transform: translateX(268px);
 
+    }
+}
+
+@media screen and (max-height:770px) {
+    .login{
+        top: 128px;
+        width: 295px;
+    }
+    .ivu-tabs-nav-scroll{
+        padding-top: 20px!important;
+        padding-left: 33px!important;
+    padding-right: 33px!important;
+    padding-bottom: 6px!important;
+    }
+    .ivu-tabs-nav {
+        .ivu-tabs-tab{
+            padding-top: 7px!important;
+            padding-left: 14px!important;
+            padding-right: 29px!important;
+        }
+    }
+    .ivu-tabs-ink-bar{
+        width: 104px;
+        top: 39px;
+    }
+    .login-con{
+        margin-top: 0px;
+    }
+    .ivu-form-item{
+        margin-bottom: 13px;
+        padding-left: 33px;
+    padding-right: 33px;
+    }
+    .custom-checkbox{
+        top: 3px;
+    }
+    .checkbox-word{
+        top: -1px;
+        left: -8px;
+    }
+    .forgrt-pwd{
+        top: -1px;
+    }
+    .login-con{
+        .loginBtn{
+            margin-top: -10px;
+            margin-bottom: 7px;
+        }
+    }
+    .login-bot{
+        height: 40px;
+        line-height: 40px;
+    }
+     
+    #loginPage {
+        header{
+            height: 60px;
+            .header-inner{
+                height: 60px; 
+                .logo-img{
+                    margin-top: 9px;
+                }
+                .inner-word{
+                    line-height: 60px;
+                }
+            }
+        }
+        .main-bg{
+            height: calc(~"100% - 120px");
+            margin-top: 60px;
+        }
+        footer{
+            height: 60px;
+            .footer-inner{
+                height: 60px;
+                .footer-main{
+                    margin-top: 15px;
+                }
+            }
+        }
     }
 }

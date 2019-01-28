@@ -170,5 +170,8 @@ export default {
 		padding: 10px 30px;
 		
 	}
-	
+ /* 解决屏幕缩小比例问题 */
+	.ivu-table{
+		width:100% !important;
+	}
 </style>

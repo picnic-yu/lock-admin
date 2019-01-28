@@ -5,62 +5,20 @@
 
 
 <template>
-    <section id="loginPage">
+    <section id="loginPage" class="test">
 
         <header>
             <div class="header-inner">
-                <!-- <a href="" class="logo-img"></a> -->
-                <!-- <span>天津联通“沃企通”智慧租赁管理平台</span> -->
+                <a href="" class="logo-img"></a>
+                
+                <div class="inner-word">欢迎使用智能锁后台系统</div>
             </div>
         </header>
-        <!-- <div class="login-logo">
-            <a href="" class="">
-                <img src="../../images/logo.png" alt="">
-            </a>
-            <br> 为您提供最合适的产品和解决方案，全面提升租赁行业的管理能力！
-        </div> -->
+       
+        <div class="main-bg">
 
         <article>
-            <Carousel  autoplay  :autoplay-speed='autoplaySpeed' class='banner'   loop>
-                <CarouselItem>
-                    <div class="demo-carousel banner-1">
-                       <!-- <div class='banner-text'>
-                            <h3>“沃企通”智慧租赁管理平台将以最新的技术
-	和最完善的应用协助我们的客户
-	快速进入资产远端监控的时代
-                            </h3>
-                            <br>
-                        </div>  -->
-                        <img src="../../images/leasing-banner-1.jpg" alt="">
-                    </div>
-                </CarouselItem>
-                <CarouselItem>
-                    
-                    <div class="demo-carousel banner-2">
-                        <!-- <div class='banner-text'>
-                            <h3 style = 'white-space: pre;'>
-创造一个
-    更加便捷有效的管理环境！
-                            </h3>
-                            <br>
-                        </div>  -->
-                        <img src="../../images/leasing-banner-2.jpg" alt="">
-                    </div>
-                </CarouselItem>
-                <!-- <CarouselItem>
-                    <div class="demo-carousel banner-3">
-                        <div class='banner-text'>
-                            <h3>嘉展科技将以最新的技术和最完善的应用
-                                协助我们的客户
-                                
-                                快速进入资产远端监控的时代 
-                            </h3>
-                            <br>
-                        </div> 
-                        <img src="../../images/leasing-banner-3.jpg" alt="">
-                    </div>
-                </CarouselItem> -->
-            </Carousel>
+            
             <div class="login" @keydown.enter="handleSubmit">
                 <!-- <div class="login-switch">
                     <div class="loginWeb" v-show='loginWeb' @click='loginWeb=!loginWeb'>
@@ -164,10 +122,20 @@
 
             </div>
         </article>
+        </div>
     
 
         <footer>
-
+            <div class="footer-inner">
+            <div class="footer-main">
+              <a href="" class="logo-img"></a>
+              <!-- <img src="../../images/login-log.png" alt="" class="logo-img"> -->
+                <div class="footer-split"></div>
+                <div class="footer-inner-word">版权所有：温州新世纪智慧城市研究院</div>
+                
+            </div>
+                
+            </div>
         </footer>
 
     </section>
