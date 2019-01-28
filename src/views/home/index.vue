@@ -162,7 +162,7 @@ export default {
 					width: '200px',
 				},
 				{
-					label: '设备数量',
+					label: '锁具数量',
                     prop: 'lockCount'
 				}
             ],
@@ -250,15 +250,15 @@ export default {
                         content: `<div style="width: 18px; height: 18px; background-color: #59e432; border-radius: 50%; border:1px solid rgba(0,0,0,0.3)">`,
                         offset: new AMap.Pixel(-15, -15)
                     });
-                    AMap.event.addListener(single_marker, "click", () => {
-                        this.showInfo = true;
-                        item.equipmentNumber = new String(item.equipmentNumber);
-                        this.data = item;
-                        //弹窗标签页设置为第一页
-                        this.currInfoTab = 'pg1';
-                        //重置标签页的加载和隐藏
-                        this.resetTabs(this.currInfoTab, this.infoTabs, true);
-                    });
+                    // AMap.event.addListener(single_marker, "click", () => {
+                    //     this.showInfo = true;
+                    //     item.equipmentNumber = new String(item.equipmentNumber);
+                    //     this.data = item;
+                    //     //弹窗标签页设置为第一页
+                    //     this.currInfoTab = 'pg1';
+                    //     //重置标签页的加载和隐藏
+                    //     this.resetTabs(this.currInfoTab, this.infoTabs, true);
+                    // });
                     markers.push(single_marker);
                 }
             });
@@ -301,21 +301,21 @@ export default {
                         },
                     }
                 });
-                pointSimplifierIns.on('pointClick ', (e, item) => {
-                    this.showInfo = true;
-                    item.data.equipmentNumber = new String(item.data.equipmentNumber);
-                    this.data = item.data;
-                    //弹窗标签页设置为第一页
-                    this.currInfoTab = 'pg1';
-                    //重置标签页的加载和隐藏
-                    this.resetTabs(this.currInfoTab, this.infoTabs, true);
-                });
+                // pointSimplifierIns.on('pointClick ', (e, item) => {
+                //     this.showInfo = true;
+                //     item.data.equipmentNumber = new String(item.data.equipmentNumber);
+                //     this.data = item.data;
+                //     //弹窗标签页设置为第一页
+                //     this.currInfoTab = 'pg1';
+                //     //重置标签页的加载和隐藏
+                //     this.resetTabs(this.currInfoTab, this.infoTabs, true);
+                // });
 
                 // 监听地图缩放
                 map.on('zoomchange', (e) => {
                     if (map.getZoom() >= 18) {
                         // 麻点图显示     
-                        cluster.clearMarkers();
+                        // cluster.clearMarkers();
                         if (pointSimplifierIns && pointSimplifierIns._data ) {
                             pointSimplifierIns.show();
                         } else {
